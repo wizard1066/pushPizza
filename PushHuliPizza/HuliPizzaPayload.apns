@@ -1,0 +1,14 @@
+{
+    "aps":{
+        "alert":{
+            "title":"know it all",
+            "body":"We're doing pizza today"
+        },
+        "badge":42,
+        "sound":"default",
+        "category":"pizza.category",
+        "mutable-content":1
+    },
+    "order":["Huli pizza","Lilikoi punch","Duke pie"],
+    "subtitle":"Come eat while it is warm!"
+}
