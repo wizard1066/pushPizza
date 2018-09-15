@@ -50,7 +50,7 @@
                                 </constraints>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" name="AvenirNextCondensed-Regular" family="Avenir Next Condensed" pointSize="18"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" keyboardType="URL" textContentType="url"/>
                                 <connections>
                                     <action selector="doChannelURL:" destination="BYZ-38-t0r" eventType="editingDidEnd" id="Xwn-6Z-05F"/>
                                 </connections>
@@ -62,7 +62,7 @@
                                 </constraints>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" name="AvenirNextCondensed-Regular" family="Avenir Next Condensed" pointSize="18"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" secureTextEntry="YES"/>
                                 <connections>
                                     <action selector="doPass:" destination="BYZ-38-t0r" eventType="editingDidEnd" id="qYQ-YG-mcl"/>
                                 </connections>

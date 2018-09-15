@@ -9,16 +9,21 @@
 import UIKit
 import SafariServices
 
-class ViewController: UIViewController, SFSafariViewControllerDelegate {
+class ViewController: UIViewController, SFSafariViewControllerDelegate, UITextFieldDelegate {
 
     @IBOutlet weak var radioLabel: UILabel!
     @IBOutlet weak var channel: UITextField!
     @IBOutlet weak var channelURL: UITextField!
     @IBOutlet weak var channelPass: UITextField!
     
+    var channel4K: String?
+    var channel4Pass: String?
+    var channel4URL: String?
+    
     @IBAction func showChannelWebVC(_ sender: Any) {
-        if channel.text != "" {
-            let urlString = returnURLgivenKey(key2search: channel.text!, typeOf: ".URL")
+        channel4K = String(channel.text!).trimmingCharacters(in: .whitespacesAndNewlines)
+        if channel4K != "" {
+            let urlString = returnURLgivenKey(key2search: channel4K!, typeOf: ".URL")
             if urlString == nil {
                 channelURL.isHidden = false
                 channelPass.isHidden = false
@@ -32,26 +37,31 @@ class ViewController: UIViewController, SFSafariViewControllerDelegate {
     }
     
     @IBAction func doChannelURL(_ sender: Any) {
-        if channelURL.text != "" {
+        channel4URL = String(channelURL.text!).trimmingCharacters(in: .whitespacesAndNewlines)
+        if channel4URL != "" {
             channelPass.becomeFirstResponder()
         }
     }
     
     @IBAction func doPass(_ sender: Any) {
-        if channelURL.text! == "" || channelURL.text! == "" {
+        channel4Pass = String(channelPass.text!).trimmingCharacters(in: .whitespacesAndNewlines)
+        if channel4Pass! == "" || channel4URL! == "" {
             showRules()
             return
         }
-        storeURLgivenKey(key2Store: channel.text!, URL2Store: channelURL.text!, pass2U: channelPass.text!)
-        doSafariVC(url2U: channelURL.text!)
+        storeURLgivenKey(key2Store: channel4K!, URL2Store: channel4URL!, pass2U: channel4Pass!)
+        doSafariVC(url2U: channel4URL!)
     }
     
     func showRules() {
         let alert = UIAlertController(title: "You need channel + http + password?", message: "You need a channel + http + password", preferredStyle: .alert)
-        
         alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-//        alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil))
-        
+        self.present(alert, animated: true)
+    }
+    
+    func badURL() {
+        let alert = UIAlertController(title: "Bad URL?", message: "Sorry, unable to open that URL \(channel4URL)", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
         self.present(alert, animated: true)
     }
     
@@ -62,18 +72,22 @@ class ViewController: UIViewController, SFSafariViewControllerDelegate {
         channelURL.isHidden = true
         channelPass.isHidden = true
         channel.becomeFirstResponder()
-        if let url = URL(string: url2U) {
-            let vc: SFSafariViewController
-            if #available(iOS 11.0, *) {
-                let config = SFSafariViewController.Configuration()
-                config.entersReaderIfAvailable = false
-                vc = SFSafariViewController(url: url, configuration: config)
+        if let url = URL(string: url2U.trimmingCharacters(in: .whitespacesAndNewlines)) {
+            if UIApplication.shared.canOpenURL(url) {
+                let vc: SFSafariViewController
+                if #available(iOS 11.0, *) {
+                    let config = SFSafariViewController.Configuration()
+                    config.entersReaderIfAvailable = false
+                    vc = SFSafariViewController(url: url, configuration: config)
+                } else {
+                    vc = SFSafariViewController(url: url, entersReaderIfAvailable: false)
+                }
+                
+                vc.delegate = self
+                present(vc, animated: true)
             } else {
-                vc = SFSafariViewController(url: url, entersReaderIfAvailable: false)
+                
             }
-            
-            vc.delegate = self
-            present(vc, animated: true)
         }
     }
     

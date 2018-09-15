@@ -16,7 +16,7 @@ func icloudStatus() -> Bool?{
 }
 
 func returnURLgivenKey(key2search: String, typeOf: String) -> String? {
-    let searchString2U = key2search + typeOf
+    let searchString2U = key2search.trimmingCharacters(in: .whitespacesAndNewlines) + typeOf
     if let storedURL = keyStore.string(forKey: searchString2U) {
         return storedURL
     } else {
@@ -25,8 +25,8 @@ func returnURLgivenKey(key2search: String, typeOf: String) -> String? {
 }
 
 func storeURLgivenKey(key2Store: String, URL2Store: String, pass2U: String) {
-    let URLkey2U = key2Store + ".URL"
-    let passKey2U = key2Store + ".PASS"
+    let URLkey2U = key2Store.trimmingCharacters(in: .whitespacesAndNewlines) + ".URL"
+    let passKey2U = key2Store.trimmingCharacters(in: .whitespacesAndNewlines) + ".PASS"
     keyStore.set(URL2Store, forKey: URLkey2U)
     keyStore.set(pass2U, forKey: passKey2U)
     keyStore.synchronize()
