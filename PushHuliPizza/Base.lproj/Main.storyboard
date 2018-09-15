@@ -31,37 +31,37 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fRs-QV-H9K">
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="frequency" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fRs-QV-H9K">
                                 <rect key="frame" x="40" y="385.5" width="295" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="IgV-Ph-8bb"/>
                                 </constraints>
                                 <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <fontDescription key="fontDescription" name="AvenirNextCondensed-Regular" family="Avenir Next Condensed" pointSize="18"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>
                                     <action selector="showChannelWebVC:" destination="BYZ-38-t0r" eventType="editingDidEnd" id="3uz-Ly-Ags"/>
                                 </connections>
                             </textField>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fsc-aB-USo">
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="https://webpage.com" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fsc-aB-USo">
                                 <rect key="frame" x="40" y="423.5" width="295" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="L1z-a4-HO9"/>
                                 </constraints>
                                 <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <fontDescription key="fontDescription" name="AvenirNextCondensed-Regular" family="Avenir Next Condensed" pointSize="18"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>
                                     <action selector="doChannelURL:" destination="BYZ-38-t0r" eventType="editingDidEnd" id="Xwn-6Z-05F"/>
                                 </connections>
                             </textField>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Sdm-bT-wQ8">
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="password" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Sdm-bT-wQ8">
                                 <rect key="frame" x="40" y="461" width="295" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="L46-6c-g8A"/>
                                 </constraints>
                                 <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <fontDescription key="fontDescription" name="AvenirNextCondensed-Regular" family="Avenir Next Condensed" pointSize="18"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>
                                     <action selector="doPass:" destination="BYZ-38-t0r" eventType="editingDidEnd" id="qYQ-YG-mcl"/>
@@ -91,6 +91,7 @@
                         <outlet property="channel" destination="fRs-QV-H9K" id="kQ6-oH-yuK"/>
                         <outlet property="channelPass" destination="Sdm-bT-wQ8" id="GZE-9a-hU7"/>
                         <outlet property="channelURL" destination="fsc-aB-USo" id="pcO-mK-mPV"/>
+                        <outlet property="radioLabel" destination="xMb-Go-WRd" id="YsL-xx-gUC"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

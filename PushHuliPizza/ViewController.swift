@@ -11,6 +11,7 @@ import SafariServices
 
 class ViewController: UIViewController, SFSafariViewControllerDelegate {
 
+    @IBOutlet weak var radioLabel: UILabel!
     @IBOutlet weak var channel: UITextField!
     @IBOutlet weak var channelURL: UITextField!
     @IBOutlet weak var channelPass: UITextField!
@@ -21,6 +22,7 @@ class ViewController: UIViewController, SFSafariViewControllerDelegate {
             if urlString == nil {
                 channelURL.isHidden = false
                 channelPass.isHidden = false
+                doURLnPassAnimation()
                 channelURL.becomeFirstResponder()
             } else {
                 doSafariVC(url2U: urlString!)
@@ -61,22 +63,70 @@ class ViewController: UIViewController, SFSafariViewControllerDelegate {
         channelPass.isHidden = true
         channel.becomeFirstResponder()
         if let url = URL(string: url2U) {
-            let vc = SFSafariViewController(url: url, entersReaderIfAvailable: true)
+            let vc: SFSafariViewController
+            if #available(iOS 11.0, *) {
+                let config = SFSafariViewController.Configuration()
+                config.entersReaderIfAvailable = false
+                vc = SFSafariViewController(url: url, configuration: config)
+            } else {
+                vc = SFSafariViewController(url: url, entersReaderIfAvailable: false)
+            }
+            
             vc.delegate = self
             present(vc, animated: true)
         }
     }
     
+    func doAnimation() {
+        radioLabel.center.y -= view.bounds.height
+        channel.center.y += view.bounds.height
+        UIView.animate(withDuration: 1.0, delay: 0.25, options: [.curveEaseOut],
+                       animations: {
+                        self.radioLabel.center.y += self.view.bounds.height },
+                        completion: {(status) in
+                        // do nothing
+            }
+        )
+        UIView.animate(withDuration: 1.0, delay: 0.25, options: [.curveEaseOut], animations: {
+            self.channel.center.y -= self.view.bounds.height
+        }) { (status) in
+            // next
+        }
+        
+    }
+    
+    func doURLnPassAnimation() {
+        channelURL.center.x -= view.bounds.width
+        channelPass.center.x += view.bounds.width
+        UIView.animate(withDuration: 0.5, delay: 0.25, options: [.curveEaseOut], animations: {
+            self.channelURL.center.x += self.view.bounds.width
+        }) { (status) in
+            // next
+        }
+        UIView.animate(withDuration: 0.5, delay: 0.25, options: [.curveEaseOut], animations: {
+            self.channelPass.center.x -= self.view.bounds.width
+        }) { (status) in
+            // next
+        }
+    }
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        // Do any additional setup after loading the view, typically from a nib.
         channelURL.isHidden = true
         channelPass.isHidden = true
+        
+        
+        
         // Do any additional setup after loading the view, typically from a nib.
         if !icloudStatus()! {
             // warn user needs cloudKit
         }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        doAnimation()
     }
 
     override func didReceiveMemoryWarning() {
