@@ -9,11 +9,18 @@
 import UIKit
 import UserNotifications
 
+struct ColorSet {
+    var colors = Set<String>()
+}
+
+var colorFucker: ColorSet?
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
     var window: UIWindow?
-
+    var colorZet = Set<String>()
+    var tagZet = Set<String>()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -70,6 +77,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         print("Successful registration. Token is:")
         print(tokenString(deviceToken))
+
     }
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
         print("Failed to register \(error.localizedDescription)")
@@ -97,8 +105,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
 //MARK: Delegates
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        completionHandler([.alert,.sound,.badge])
+//        completionHandler([.alert,.sound,.badge])
+        let userInfo = notification.request.content.userInfo as! [String:Any]
+        //add the subtitle
+        if let color2U = userInfo["color"] {
+            let color2UX = color2U as! String
+            let tag2U = userInfo["tag"]
+            let tag2UX = tag2U as! String
+            if (colorZet.contains(color2UX) && tagZet.contains(tag2UX)) {
+                completionHandler([.alert,.sound,.badge])
+            } else {
+                completionHandler([])
+            }
+        }
+        
+        
     }
+    
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         let action = response.actionIdentifier
         let request = response.notification.request

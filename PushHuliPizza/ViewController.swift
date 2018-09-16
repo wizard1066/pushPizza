@@ -15,6 +15,11 @@ class ViewController: UIViewController, SFSafariViewControllerDelegate, UITextFi
     @IBOutlet weak var channel: UITextField!
     @IBOutlet weak var channelURL: UITextField!
     @IBOutlet weak var channelPass: UITextField!
+    @IBOutlet weak var channelUUID: UITextField!
+    @IBOutlet weak var redOption: UISwitch!
+    @IBOutlet weak var blueOption: UISwitch!
+    @IBOutlet weak var greenOption: UISwitch!
+    @IBOutlet weak var whiteOption: UISwitch!
     
     var channel4K: String?
     var channel4Pass: String?
@@ -23,6 +28,7 @@ class ViewController: UIViewController, SFSafariViewControllerDelegate, UITextFi
     @IBAction func showChannelWebVC(_ sender: Any) {
         channel4K = String(channel.text!).trimmingCharacters(in: .whitespacesAndNewlines)
         if channel4K != "" {
+            appDelegate.tagZet.insert(channel4K!)
             let urlString = returnURLgivenKey(key2search: channel4K!, typeOf: ".URL")
             if urlString == nil {
                 channelURL.isHidden = false
@@ -49,6 +55,9 @@ class ViewController: UIViewController, SFSafariViewControllerDelegate, UITextFi
             showRules()
             return
         }
+        let newUUID = UUID().uuidString
+        channelUUID.text = newUUID
+        doUUIDAnimation()
         storeURLgivenKey(key2Store: channel4K!, URL2Store: channel4URL!, pass2U: channel4Pass!)
         doSafariVC(url2U: channel4URL!)
     }
@@ -124,12 +133,39 @@ class ViewController: UIViewController, SFSafariViewControllerDelegate, UITextFi
         }
     }
     
+    func doUUIDAnimation() {
+        UIView.animate(withDuration: 0.5, delay: 0.25, options: [.curveEaseOut], animations: {
+            self.channelUUID.alpha = 1.0
+        }) { (status) in
+            // next
+        }
+    }
+    
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    
+    @IBAction func whiteAction(_ sender: Any) {
+        appDelegate.colorZet.insert("white")
+    }
+    
+    @IBAction func greenAction(_ sender: Any) {
+        appDelegate.colorZet.insert("green")
+    }
+    
+    @IBAction func blueAction(_ sender: Any) {
+        appDelegate.colorZet.insert("blue")
+    }
+    
+    @IBAction func redAction(_ sender: Any) {
+        appDelegate.colorZet.insert("red")
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         channelURL.isHidden = true
         channelPass.isHidden = true
+        channelUUID.alpha = 0.0
         
         
         
