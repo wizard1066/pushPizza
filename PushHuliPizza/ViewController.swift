@@ -92,70 +92,70 @@ class ViewController: UIViewController, SFSafariViewControllerDelegate, UITextFi
         loginTask.resume()
     }
     
-    func fucked() {
-        let stringPath = Bundle.main.path(forResource: "Cert", ofType: "p12")
-        guard let apns = APNS(certificatePath: stringPath!, passphrase: "0244941651") else {
-            print("Failed to create APNS object")
-            return
-        }
-        
-        var apnsOptions = APNS.Options()
-        apnsOptions.topic = "Weekend deal"
-        apnsOptions.port = .p2197
-        apnsOptions.expiry = Date()
-        apnsOptions.development = false
-        apnsOptions.priority = 10
-        
-        let certificateIdentity = getIdentity(password: "0244941651")
-        let apnsConnection = APNS(identity: certificateIdentity!, options: apnsOptions)
-
-        let json: String = "{\"aps\":{\"title\":\"cest marche\",\"body\":\"We're doing pizza today\"},\"badge\":42,\"sound\":\"default\",\"category\":\"pizza.category\",\"mutable-content\":1},\"color\":\"blue\",\"tag\":\"knowitall\"}"
-        
-//        let json: String = "{\"aps\":{\"title\":\"cest marche\",\"body\":\"We're doing pizza today\"}}"
-
-        let jsonPayLoad = json.data(using: String.Encoding.utf8)
-        try! apnsConnection.sendPush(tokenList: tokens, payload: jsonPayLoad!) {
-            (apnsResponse) in
-            Swift.print("\n\(apnsResponse.deviceToken)")
-            Swift.print("  Status: \(apnsResponse.serviceStatus)")
-            Swift.print("  APNS ID: \(apnsResponse.apnsId ?? "")")
-            print("\(apnsResponse.errorReason)")
-            if let errorReason = apnsResponse.errorReason {
-                Swift.print("  ERROR: \(errorReason.description)")
-            }
-        }
-    }
-    
-    func getIdentity (password : String?) -> SecIdentity? {
-        // Load certificate file
-        let path = Bundle.main.path(forResource: "Certificates", ofType : "p12")
-        let p12KeyFileContent = NSData(contentsOfFile: path!)
-        
-        if (p12KeyFileContent == nil) {
-            NSLog("Cannot read PKCS12 file from \(path)")
-            return nil
-        }
-        
-        // Setting options for the identity "query"
-        let options = [String(kSecImportExportPassphrase):password ?? ""]
-        var citems: CFArray? = nil
-        let resultPKCS12Import = withUnsafeMutablePointer(to: &citems) { citemsPtr in
-            SecPKCS12Import(p12KeyFileContent!, options as CFDictionary, citemsPtr)
-        }
-        if (resultPKCS12Import != errSecSuccess) {
-            return nil
-        }
-        
-        // Recover the identity
-        let items = citems! as NSArray
-        let myIdentityAndTrust = items.object(at: 0) as! NSDictionary
-        let identityKey = String(kSecImportItemIdentity)
-        let identity = myIdentityAndTrust[identityKey] as! SecIdentity
-        
-        print("identity : ", identity)
-        
-        return identity as SecIdentity
-    }
+//    func fucked() {
+//        let stringPath = Bundle.main.path(forResource: "Cert", ofType: "p12")
+//        guard let apns = APNS(certificatePath: stringPath!, passphrase: "0244941651") else {
+//            print("Failed to create APNS object")
+//            return
+//        }
+//
+//        var apnsOptions = APNS.Options()
+//        apnsOptions.topic = "Weekend deal"
+//        apnsOptions.port = .p2197
+//        apnsOptions.expiry = Date()
+//        apnsOptions.development = false
+//        apnsOptions.priority = 10
+//
+//        let certificateIdentity = getIdentity(password: "0244941651")
+//        let apnsConnection = APNS(identity: certificateIdentity!, options: apnsOptions)
+//
+//        let json: String = "{\"aps\":{\"title\":\"cest marche\",\"body\":\"We're doing pizza today\"},\"badge\":42,\"sound\":\"default\",\"category\":\"pizza.category\",\"mutable-content\":1},\"color\":\"blue\",\"tag\":\"knowitall\"}"
+//
+////        let json: String = "{\"aps\":{\"title\":\"cest marche\",\"body\":\"We're doing pizza today\"}}"
+//
+//        let jsonPayLoad = json.data(using: String.Encoding.utf8)
+//        try! apnsConnection.sendPush(tokenList: tokens, payload: jsonPayLoad!) {
+//            (apnsResponse) in
+//            Swift.print("\n\(apnsResponse.deviceToken)")
+//            Swift.print("  Status: \(apnsResponse.serviceStatus)")
+//            Swift.print("  APNS ID: \(apnsResponse.apnsId ?? "")")
+//            print("\(apnsResponse.errorReason)")
+//            if let errorReason = apnsResponse.errorReason {
+//                Swift.print("  ERROR: \(errorReason.description)")
+//            }
+//        }
+//    }
+//
+//    func getIdentity (password : String?) -> SecIdentity? {
+//        // Load certificate file
+//        let path = Bundle.main.path(forResource: "Certificates", ofType : "p12")
+//        let p12KeyFileContent = NSData(contentsOfFile: path!)
+//
+//        if (p12KeyFileContent == nil) {
+//            NSLog("Cannot read PKCS12 file from \(path)")
+//            return nil
+//        }
+//
+//        // Setting options for the identity "query"
+//        let options = [String(kSecImportExportPassphrase):password ?? ""]
+//        var citems: CFArray? = nil
+//        let resultPKCS12Import = withUnsafeMutablePointer(to: &citems) { citemsPtr in
+//            SecPKCS12Import(p12KeyFileContent!, options as CFDictionary, citemsPtr)
+//        }
+//        if (resultPKCS12Import != errSecSuccess) {
+//            return nil
+//        }
+//
+//        // Recover the identity
+//        let items = citems! as NSArray
+//        let myIdentityAndTrust = items.object(at: 0) as! NSDictionary
+//        let identityKey = String(kSecImportItemIdentity)
+//        let identity = myIdentityAndTrust[identityKey] as! SecIdentity
+//
+//        print("identity : ", identity)
+//
+//        return identity as SecIdentity
+//    }
     
     @IBAction func showChannelWebVC(_ sender: Any) {
         channel4K = String(channel.text!).trimmingCharacters(in: .whitespacesAndNewlines)
