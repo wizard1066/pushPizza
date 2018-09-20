@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  PushHuliPizza
 //
-//  Created by Steven Lipton on 1/13/17.
+//  Created by Mark Lucking on 1/13/17.
 //  Copyright © 2017 Steven Lipton. All rights reserved.
 //
 
@@ -107,17 +107,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
 //        completionHandler([.alert,.sound,.badge])
         let userInfo = notification.request.content.userInfo as! [String:Any]
+        completionHandler([.alert,.sound,.badge])
         //add the subtitle
-        if let color2U = userInfo["color"] {
-            let color2UX = color2U as! String
-            let tag2U = userInfo["tag"]
-            let tag2UX = tag2U as! String
-            if (colorZet.contains(color2UX) && tagZet.contains(tag2UX)) {
-                completionHandler([.alert,.sound,.badge])
-            } else {
-                completionHandler([])
-            }
-        }
+//        if let color2U = userInfo["color"] {
+//            let color2UX = color2U as! String
+//            let tag2U = userInfo["tag"]
+//            let tag2UX = tag2U as! String
+//            if (colorZet.contains(color2UX) && tagZet.contains(tag2UX)) {
+//                completionHandler([.alert,.sound,.badge])
+//            } else {
+//                completionHandler([])
+//            }
+//        }
         
         
     }

@@ -8,7 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		7B0EFC8D214BD8DC00654A57 /* CloudKitMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B0EFC8C214BD8DC00654A57 /* CloudKitMethods.swift */; };
-		7BD385C3214D4237008FD003 /* FlipPresentAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BD385C2214D4237008FD003 /* FlipPresentAnimationController.swift */; };
+		7B43B3B92153BF6600173B69 /* Cert.pem in Resources */ = {isa = PBXBuildFile; fileRef = 7B43B3B82153BF6600173B69 /* Cert.pem */; };
+		7B43B3BB2153C01100173B69 /* Cert.p12 in Resources */ = {isa = PBXBuildFile; fileRef = 7B43B3BA2153C01100173B69 /* Cert.p12 */; };
+		7B7008E42152A7E000D8CF9E /* APNS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7008E32152A7E000D8CF9E /* APNS.swift */; };
+		7B7008EA2152D32500D8CF9E /* Certificates.p12 in Resources */ = {isa = PBXBuildFile; fileRef = 7B7008E92152D32500D8CF9E /* Certificates.p12 */; };
 		E147B98A1E29846300E66CF5 /* HuliPizzaPayload.apns in Resources */ = {isa = PBXBuildFile; fileRef = E147B9891E29846300E66CF5 /* HuliPizzaPayload.apns */; };
 		E1C45FDA1E29408100F271B4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C45FD91E29408100F271B4 /* AppDelegate.swift */; };
 		E1C45FDC1E29408100F271B4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C45FDB1E29408100F271B4 /* ViewController.swift */; };
@@ -32,7 +35,10 @@
 
 /* Begin PBXFileReference section */
 		7B0EFC8C214BD8DC00654A57 /* CloudKitMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitMethods.swift; sourceTree = "<group>"; };
-		7BD385C2214D4237008FD003 /* FlipPresentAnimationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlipPresentAnimationController.swift; sourceTree = "<group>"; };
+		7B43B3B82153BF6600173B69 /* Cert.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Cert.pem; sourceTree = "<group>"; };
+		7B43B3BA2153C01100173B69 /* Cert.p12 */ = {isa = PBXFileReference; lastKnownFileType = file; path = Cert.p12; sourceTree = "<group>"; };
+		7B7008E32152A7E000D8CF9E /* APNS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APNS.swift; sourceTree = "<group>"; };
+		7B7008E92152D32500D8CF9E /* Certificates.p12 */ = {isa = PBXFileReference; lastKnownFileType = file; path = Certificates.p12; sourceTree = "<group>"; };
 		7BD385C6214D8493008FD003 /* UserNotificationsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotificationsUI.framework; path = System/Library/Frameworks/UserNotificationsUI.framework; sourceTree = SDKROOT; };
 		7BD385C7214D8493008FD003 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		E147B9891E29846300E66CF5 /* HuliPizzaPayload.apns */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = HuliPizzaPayload.apns; sourceTree = "<group>"; };
@@ -87,9 +93,12 @@
 			isa = PBXGroup;
 			children = (
 				E1C45FEB1E2940C900F271B4 /* PushHuliPizza.entitlements */,
+				7B7008E92152D32500D8CF9E /* Certificates.p12 */,
 				E1C45FD91E29408100F271B4 /* AppDelegate.swift */,
 				E1C45FDB1E29408100F271B4 /* ViewController.swift */,
-				7BD385C2214D4237008FD003 /* FlipPresentAnimationController.swift */,
+				7B7008E32152A7E000D8CF9E /* APNS.swift */,
+				7B43B3BA2153C01100173B69 /* Cert.p12 */,
+				7B43B3B82153BF6600173B69 /* Cert.pem */,
 				7B0EFC8C214BD8DC00654A57 /* CloudKitMethods.swift */,
 				E147B9891E29846300E66CF5 /* HuliPizzaPayload.apns */,
 				E1C45FDD1E29408100F271B4 /* Main.storyboard */,
@@ -169,7 +178,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7B43B3BB2153C01100173B69 /* Cert.p12 in Resources */,
+				7B43B3B92153BF6600173B69 /* Cert.pem in Resources */,
 				E1C45FE41E29408100F271B4 /* LaunchScreen.storyboard in Resources */,
+				7B7008EA2152D32500D8CF9E /* Certificates.p12 in Resources */,
 				E1C45FE11E29408100F271B4 /* Assets.xcassets in Resources */,
 				E1C45FDF1E29408100F271B4 /* Main.storyboard in Resources */,
 				E147B98A1E29846300E66CF5 /* HuliPizzaPayload.apns in Resources */,
@@ -186,7 +198,7 @@
 				7B0EFC8D214BD8DC00654A57 /* CloudKitMethods.swift in Sources */,
 				E1C45FDC1E29408100F271B4 /* ViewController.swift in Sources */,
 				E1C45FDA1E29408100F271B4 /* AppDelegate.swift in Sources */,
-				7BD385C3214D4237008FD003 /* FlipPresentAnimationController.swift in Sources */,
+				7B7008E42152A7E000D8CF9E /* APNS.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
