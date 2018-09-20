@@ -295,9 +295,9 @@ class ViewController: UIViewController, SFSafariViewControllerDelegate, UITextFi
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        channelURL.isHidden = true
-        channelPass.isHidden = true
-        channelUUID.alpha = 0.0
+//        channelURL.isHidden = true
+//        channelPass.isHidden = true
+//        channelUUID.alpha = 0.0
         
         
         // Do any additional setup after loading the view, typically from a nib.
@@ -307,7 +307,7 @@ class ViewController: UIViewController, SFSafariViewControllerDelegate, UITextFi
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        doAnimation()
+//        doAnimation()
     }
 
     override func didReceiveMemoryWarning() {
