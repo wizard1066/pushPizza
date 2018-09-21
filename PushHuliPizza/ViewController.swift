@@ -113,12 +113,32 @@ class ViewController: UIViewController, SFSafariViewControllerDelegate, UITextFi
         }
     }
     
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        if pickerView.tag == 1 {
-            return stationsRegistered[row]
-        } else {
-            return "knowitall"
+//    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+//        if pickerView.tag == 1 {
+//            return stationsRegistered[row]
+//        } else {
+//            return "knowitall"
+//        }
+//    }
+    
+    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
+        
+        var pickerLabel = view as? UILabel;
+        if (pickerLabel == nil)
+        {
+            pickerLabel = UILabel()
+            
+            pickerLabel?.font = UIFont(name: "AvenirNextCondensed-DemiBoldItalic", size: 20)
+            pickerLabel?.textAlignment = NSTextAlignment.center
         }
+        
+        if pickerView.tag == 1 {
+            pickerLabel?.text = stationsRegistered[row]
+        } else {
+            pickerLabel?.text = "Knowitall"
+        }
+        
+        return pickerLabel!;
     }
     
     override func viewDidAppear(_ animated: Bool) {

@@ -17,6 +17,8 @@ class ConfigViewController: UIViewController, UITableViewDelegate, UITableViewDa
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: "cell")
         cell.textLabel?.text = stationsRegistered[indexPath.row]
+        cell.textLabel?.font = UIFont(name: "AvenirNextCondensed-DemiBoldItalic", size: 20)
+        cell.textLabel?.textAlignment = NSTextAlignment.center
         return cell
     }
     
@@ -46,6 +48,22 @@ class ConfigViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         return [deleteAction, editAction]
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+            let alert = UIAlertController(title: "", message: "Edit list item", preferredStyle: .alert)
+            alert.addTextField(configurationHandler: { (textField) in
+                textField.text = self.stationsTable.cellForRow(at: indexPath)?.textLabel?.text
+            })
+            alert.addAction(UIAlertAction(title: "Update", style: .default, handler: { (updateAction) in
+                self.stationsTable.cellForRow(at: indexPath)?.textLabel?.text = alert.textFields!.first!.text!
+                self.stationsRegistered[indexPath.row] = alert.textFields!.first!.text!
+                self.stationsTable.reloadRows(at: [indexPath], with: .fade)
+            }))
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            self.present(alert, animated: false)
+      
+    }
 
     @IBOutlet weak var registerButton: UIButton!
     
@@ -62,7 +80,7 @@ class ConfigViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     @IBAction func registerButton(_ sender: UIButton) {
-        cloudDB.share.createLine(lineName: lineText.text!, stationNames: stationsRegistered, linePassword: passText.text!)
+        cloudDB.share.saveLine(lineName: lineText.text!, stationNames: stationsRegistered, linePassword: passText.text!)
     }
     
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -70,7 +88,7 @@ class ConfigViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        stationsTable.rowHeight = 32
         // Do any additional setup after loading the view.
     }
     

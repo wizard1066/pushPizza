@@ -160,7 +160,7 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="ayR-j0-HSS"/>
                                 </connections>
                             </pickerView>
-                            <pickerView tag="1" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TpH-Cb-LWQ">
+                            <pickerView multipleTouchEnabled="YES" tag="1" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TpH-Cb-LWQ">
                                 <rect key="frame" x="27.5" y="370" width="320" height="216"/>
                                 <connections>
                                     <outlet property="dataSource" destination="BYZ-38-t0r" id="yId-xD-UIJ"/>

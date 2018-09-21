@@ -33,7 +33,7 @@ var sharedDB: CKDatabase!
 //                }
                 print("saveLine error \(error)")
             } else {
-                self.saveLine(lineName: lineName, stationNames: stationNames, linePassword: linePassword, zoneID: customZone.zoneID)
+                
 //                OperationQueue.main.addOperation {
 ////                self.textView.text = "The 'FriendsZone' was successfully created in the private database."
 //                }
@@ -42,8 +42,8 @@ var sharedDB: CKDatabase!
 
     }
     
-    private func saveLine(lineName: String, stationNames:[String], linePassword:String, zoneID: CKRecordZoneID) {
-        let customRecord = CKRecord(recordType: remoteRecords.notificationLine, zoneID: zoneID)
+    public func saveLine(lineName: String, stationNames:[String], linePassword:String) {
+        let customRecord = CKRecord(recordType: remoteRecords.notificationLine)
         customRecord[remoteRecords.lineName] = lineName
         customRecord[remoteRecords.linePassword] = linePassword
         customRecord[remoteRecords.stationNames] = stationNames
