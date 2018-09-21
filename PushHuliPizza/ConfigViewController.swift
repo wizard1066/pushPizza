@@ -28,7 +28,6 @@ class ConfigViewController: UIViewController, UITableViewDelegate, UITableViewDa
         let editAction = UITableViewRowAction(style: .default, title: "Edit", handler: { (action, indexPath) in
             let alert = UIAlertController(title: "", message: "Edit list item", preferredStyle: .alert)
             alert.addTextField(configurationHandler: { (textField) in
-                print("\(indexPath.row) \(self.stationsTable.cellForRow(at: indexPath))")
                 textField.text = self.stationsTable.cellForRow(at: indexPath)?.textLabel?.text
             })
             alert.addAction(UIAlertAction(title: "Update", style: .default, handler: { (updateAction) in
@@ -41,7 +40,7 @@ class ConfigViewController: UIViewController, UITableViewDelegate, UITableViewDa
         })
         
         let deleteAction = UITableViewRowAction(style: .default, title: "Delete", handler: { (action, indexPath) in
-//            stationsTable.remove(at: indexPath.row)
+            self.stationsRegistered.remove(at: indexPath.row)
             tableView.reloadData()
         })
         
@@ -49,16 +48,21 @@ class ConfigViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
 
     @IBOutlet weak var registerButton: UIButton!
-    @IBOutlet weak var lineButton: UITextField!
-    @IBOutlet weak var passwordButton: UITextField!
+    
     @IBOutlet weak var stationsTable: UITableView!
     @IBOutlet weak var shareButton: UIButton!
     @IBOutlet weak var messagesLabel: UILabel!
     @IBOutlet weak var creditsLabel: UILabel!
     @IBOutlet weak var returnButton: UIButton!
+    @IBOutlet weak var lineText: UITextField!
+    @IBOutlet weak var passText: UITextField!
     
     @IBAction func returnAction(_ sender: UIButton) {
         dismiss(animated: true, completion: nil)
+    }
+    
+    @IBAction func registerButton(_ sender: UIButton) {
+        cloudDB.share.createLine(lineName: lineText.text!, stationNames: stationsRegistered, linePassword: passText.text!)
     }
     
     let appDelegate = UIApplication.shared.delegate as! AppDelegate

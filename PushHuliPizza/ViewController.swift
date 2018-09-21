@@ -9,7 +9,7 @@
 import UIKit
 import SafariServices
 
-class ViewController: UIViewController, SFSafariViewControllerDelegate, UITextFieldDelegate, URLSessionDelegate {
+class ViewController: UIViewController, SFSafariViewControllerDelegate, UITextFieldDelegate, URLSessionDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
 
     @IBOutlet weak var pendingPostsButton: UIButton!
     @IBOutlet weak var linesPicker: UIPickerView!
@@ -17,6 +17,8 @@ class ViewController: UIViewController, SFSafariViewControllerDelegate, UITextFi
     @IBOutlet weak var configButton: UIButton!
     @IBOutlet weak var stationsPicker: UIPickerView!
     @IBOutlet weak var previousPostsButton: UIButton!
+    
+    var stationsRegistered:[String] = ["English","French","Italian","German"]
     
     var channel4K: String?
     var channel4Pass: String?
@@ -77,8 +79,7 @@ class ViewController: UIViewController, SFSafariViewControllerDelegate, UITextFi
         self.present(alert, animated: true)
     }
     
-
-    
+    var lineName: String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -89,8 +90,34 @@ class ViewController: UIViewController, SFSafariViewControllerDelegate, UITextFi
         
         
         // Do any additional setup after loading the view, typically from a nib.
-        if !icloudStatus()! {
-            // warn user needs cloudKit
+//        if !icloudStatus()! {
+//            // warn user needs cloudKit
+//        }
+        let defaults = UserDefaults.standard
+        lineName = defaults.string(forKey: remoteRecords.lineName)
+        let linePass = defaults.string(forKey: remoteRecords.linePassword)
+//        stationsRegistered = (defaults.array(forKey: remoteRecords.stationNames) as? [String])!
+        
+        
+    }
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        if pickerView.tag == 1 {
+            return stationsRegistered.count
+        } else {
+            return 1
+        }
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        if pickerView.tag == 1 {
+            return stationsRegistered[row]
+        } else {
+            return "knowitall"
         }
     }
     

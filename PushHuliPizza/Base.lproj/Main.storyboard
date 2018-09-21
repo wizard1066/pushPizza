@@ -72,11 +72,6 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K1S-v7-4Qe">
-                                <rect key="frame" x="168.5" y="517" width="38" height="37"/>
-                                <fontDescription key="fontDescription" name="AvenirNextCondensed-DemiBoldItalic" family="Avenir Next Condensed" pointSize="18"/>
-                                <state key="normal" title="Share"/>
-                            </button>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Line" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OO1-Y4-dOo">
                                 <rect key="frame" x="67.5" y="117" width="240" height="30"/>
                                 <constraints>
@@ -91,15 +86,16 @@
                                 <rect key="frame" x="159.5" y="72" width="56" height="37"/>
                                 <fontDescription key="fontDescription" name="AvenirNextCondensed-DemiBoldItalic" family="Avenir Next Condensed" pointSize="18"/>
                                 <state key="normal" title="Register"/>
+                                <connections>
+                                    <action selector="registerButton:" destination="ZU7-wl-qQH" eventType="touchUpInside" id="cNC-KM-j7J"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="t94-c4-aoy" firstAttribute="centerX" secondItem="Or5-8y-kaI" secondAttribute="centerX" id="0pH-Rs-MNI"/>
-                            <constraint firstItem="d8g-65-G8t" firstAttribute="top" secondItem="K1S-v7-4Qe" secondAttribute="bottom" constant="8" id="59a-QA-JbU"/>
                             <constraint firstItem="giI-7y-gM1" firstAttribute="centerX" secondItem="Or5-8y-kaI" secondAttribute="centerX" id="7WB-XN-s9c"/>
                             <constraint firstItem="giI-7y-gM1" firstAttribute="top" secondItem="gqH-Ug-0TR" secondAttribute="bottom" constant="8" id="GRt-S3-kns"/>
-                            <constraint firstItem="K1S-v7-4Qe" firstAttribute="centerX" secondItem="Or5-8y-kaI" secondAttribute="centerX" id="MHH-xf-5Sn"/>
                             <constraint firstItem="iZp-Ak-VOb" firstAttribute="top" secondItem="OO1-Y4-dOo" secondAttribute="bottom" constant="8" id="SOK-5n-H2Z"/>
                             <constraint firstItem="NMG-Gw-LDW" firstAttribute="centerY" secondItem="Or5-8y-kaI" secondAttribute="centerY" id="TH8-ha-Ddi"/>
                             <constraint firstItem="iZp-Ak-VOb" firstAttribute="centerX" secondItem="Or5-8y-kaI" secondAttribute="centerX" id="Ylj-Wt-2v1"/>
@@ -116,12 +112,11 @@
                     <navigationItem key="navigationItem" id="dz7-Bt-8m4"/>
                     <connections>
                         <outlet property="creditsLabel" destination="yXG-O7-XYx" id="bPP-NI-5Hg"/>
-                        <outlet property="lineButton" destination="OO1-Y4-dOo" id="8DG-ZJ-qGa"/>
+                        <outlet property="lineText" destination="OO1-Y4-dOo" id="pf0-9Y-ljY"/>
                         <outlet property="messagesLabel" destination="d8g-65-G8t" id="knH-aQ-1lR"/>
-                        <outlet property="passwordButton" destination="iZp-Ak-VOb" id="uEp-hd-ZJq"/>
+                        <outlet property="passText" destination="iZp-Ak-VOb" id="1Ue-gV-TeW"/>
                         <outlet property="registerButton" destination="giI-7y-gM1" id="e1T-gC-roe"/>
                         <outlet property="returnButton" destination="t94-c4-aoy" id="55v-tO-XSy"/>
-                        <outlet property="shareButton" destination="K1S-v7-4Qe" id="SQX-HE-II8"/>
                         <outlet property="stationsTable" destination="NMG-Gw-LDW" id="7Fz-ht-ye1"/>
                     </connections>
                 </viewController>
@@ -160,9 +155,17 @@
                             </button>
                             <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yD9-AF-qAk">
                                 <rect key="frame" x="27.5" y="101" width="320" height="216"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="rZw-GV-oXO"/>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="ayR-j0-HSS"/>
+                                </connections>
                             </pickerView>
-                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TpH-Cb-LWQ">
+                            <pickerView tag="1" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TpH-Cb-LWQ">
                                 <rect key="frame" x="27.5" y="370" width="320" height="216"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="yId-xD-UIJ"/>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="piI-SO-Onk"/>
+                                </connections>
                             </pickerView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lines" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nrG-pD-Lwa">
                                 <rect key="frame" x="160.5" y="73" width="54" height="20"/>
@@ -223,11 +226,9 @@
                     </view>
                     <connections>
                         <outlet property="configButton" destination="Ib0-iq-pDk" id="p1R-lS-o5x"/>
-                        <outlet property="linesPicker" destination="yD9-AF-qAk" id="bqR-nG-vnd"/>
                         <outlet property="pendingPostsButton" destination="j3X-nZ-UeZ" id="Hos-ts-s4H"/>
                         <outlet property="postingButton" destination="33e-0w-fSl" id="qH9-8h-eCQ"/>
                         <outlet property="previousPostsButton" destination="YyA-7H-TUf" id="a8v-wG-LFA"/>
-                        <outlet property="stationsPicker" destination="TpH-Cb-LWQ" id="CKs-c8-kZa"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -247,37 +248,31 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="hdx-aC-S3E">
-                                <rect key="frame" x="154.5" y="317" width="66" height="224"/>
+                                <rect key="frame" x="154.5" y="431" width="66" height="110"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cnu-iT-aOm">
                                         <rect key="frame" x="18" y="0.0" width="30" height="34"/>
                                         <fontDescription key="fontDescription" name="AvenirNextCondensed-Medium" family="Avenir Next Condensed" pointSize="16"/>
                                         <state key="normal" title="Live"/>
+                                        <connections>
+                                            <action selector="liveButton:" destination="FKP-Lm-uMP" eventType="touchUpInside" id="o7P-LH-1lk"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wpe-YC-7yY">
                                         <rect key="frame" x="13" y="38" width="40" height="34"/>
                                         <fontDescription key="fontDescription" name="AvenirNextCondensed-Medium" family="Avenir Next Condensed" pointSize="16"/>
                                         <state key="normal" title="Library"/>
+                                        <connections>
+                                            <action selector="libraryButton:" destination="FKP-Lm-uMP" eventType="touchUpInside" id="eMr-zX-mkO"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hqu-yN-2K8">
                                         <rect key="frame" x="0.0" y="76" width="66" height="34"/>
                                         <fontDescription key="fontDescription" name="AvenirNextCondensed-Medium" family="Avenir Next Condensed" pointSize="16"/>
                                         <state key="normal" title="DropNDrag"/>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RHh-BM-fVD">
-                                        <rect key="frame" x="1" y="114" width="64" height="34"/>
-                                        <fontDescription key="fontDescription" name="AvenirNextCondensed-Medium" family="Avenir Next Condensed" pointSize="16"/>
-                                        <state key="normal" title="SoundByte"/>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FWq-LW-ysI">
-                                        <rect key="frame" x="14.5" y="152" width="37" height="34"/>
-                                        <fontDescription key="fontDescription" name="AvenirNextCondensed-Medium" family="Avenir Next Condensed" pointSize="16"/>
-                                        <state key="normal" title="Movie"/>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Es-ds-pJ6">
-                                        <rect key="frame" x="18" y="190" width="30" height="34"/>
-                                        <fontDescription key="fontDescription" name="AvenirNextCondensed-Medium" family="Avenir Next Condensed" pointSize="16"/>
-                                        <state key="normal" title="URL"/>
+                                        <connections>
+                                            <action selector="dropNdragButton:" destination="FKP-Lm-uMP" eventType="touchUpInside" id="5G1-Vd-5On"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                             </stackView>
@@ -301,6 +296,17 @@
                                     <action selector="returnAction:" destination="FKP-Lm-uMP" eventType="touchUpInside" id="Ke6-yn-8u0"/>
                                 </connections>
                             </button>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="CmX-zL-QNB">
+                                <rect key="frame" x="67.5" y="155" width="240" height="96"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="96" id="RfZ-0h-KIl"/>
+                                    <constraint firstAttribute="width" constant="240" id="vEu-zt-u4s"/>
+                                </constraints>
+                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eRh-LS-mA7">
                                 <rect key="frame" x="172.5" y="72" width="30" height="37"/>
                                 <fontDescription key="fontDescription" name="AvenirNextCondensed-DemiBoldItalic" family="Avenir Next Condensed" pointSize="18"/>
@@ -318,17 +324,16 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="CmX-zL-QNB">
-                                <rect key="frame" x="67.5" y="155" width="240" height="128"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gev-gM-otj">
+                                <rect key="frame" x="0.0" y="253.5" width="375" height="160"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="128" id="RfZ-0h-KIl"/>
-                                    <constraint firstAttribute="width" constant="240" id="vEu-zt-u4s"/>
+                                    <constraint firstAttribute="height" constant="160" id="Tzb-Jd-MMQ"/>
                                 </constraints>
-                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
+                                <connections>
+                                    <outlet property="dataSource" destination="FKP-Lm-uMP" id="gni-BS-wFE"/>
+                                    <outlet property="delegate" destination="FKP-Lm-uMP" id="1Lf-fL-iin"/>
+                                </connections>
+                            </pickerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -336,13 +341,17 @@
                             <constraint firstItem="CmX-zL-QNB" firstAttribute="top" secondItem="qBQ-kS-hwQ" secondAttribute="bottom" constant="8" id="BPP-dO-7ES"/>
                             <constraint firstItem="qBQ-kS-hwQ" firstAttribute="top" secondItem="eRh-LS-mA7" secondAttribute="bottom" constant="8" id="KAO-JY-wrH"/>
                             <constraint firstItem="qBQ-kS-hwQ" firstAttribute="centerX" secondItem="yza-5U-W9t" secondAttribute="centerX" id="KMV-Cb-2X3"/>
+                            <constraint firstItem="Gev-gM-otj" firstAttribute="leading" secondItem="yza-5U-W9t" secondAttribute="leading" id="N5x-tq-ebm"/>
                             <constraint firstItem="Ob6-QI-88X" firstAttribute="top" secondItem="3fT-Hj-Pyn" secondAttribute="bottom" constant="8" id="QfT-2O-dAc"/>
                             <constraint firstItem="hdx-aC-S3E" firstAttribute="centerX" secondItem="yza-5U-W9t" secondAttribute="centerX" id="SUQ-of-Rbb"/>
                             <constraint firstItem="3fT-Hj-Pyn" firstAttribute="centerX" secondItem="yza-5U-W9t" secondAttribute="centerX" id="SuN-J7-NFQ"/>
+                            <constraint firstItem="Gev-gM-otj" firstAttribute="centerX" secondItem="yza-5U-W9t" secondAttribute="centerX" id="U56-ts-vEB"/>
                             <constraint firstItem="mbF-dq-HHJ" firstAttribute="top" secondItem="gNE-GR-Kt9" secondAttribute="bottom" constant="8" id="XhO-bK-g5E"/>
                             <constraint firstItem="gNE-GR-Kt9" firstAttribute="top" secondItem="Ob6-QI-88X" secondAttribute="bottom" constant="8" id="cCw-e2-s7f"/>
                             <constraint firstItem="CmX-zL-QNB" firstAttribute="centerX" secondItem="yza-5U-W9t" secondAttribute="centerX" id="gM2-Uk-2Fw"/>
                             <constraint firstItem="3fT-Hj-Pyn" firstAttribute="top" secondItem="hdx-aC-S3E" secondAttribute="bottom" constant="24" id="gUd-gk-i5R"/>
+                            <constraint firstItem="Gev-gM-otj" firstAttribute="centerY" secondItem="yza-5U-W9t" secondAttribute="centerY" id="jZi-yg-jyw"/>
+                            <constraint firstAttribute="trailing" secondItem="Gev-gM-otj" secondAttribute="trailing" id="krF-7T-6RE"/>
                             <constraint firstItem="gNE-GR-Kt9" firstAttribute="centerX" secondItem="yza-5U-W9t" secondAttribute="centerX" id="lSl-1c-019"/>
                             <constraint firstItem="Ob6-QI-88X" firstAttribute="centerX" secondItem="yza-5U-W9t" secondAttribute="centerX" id="mjf-kj-9Vp"/>
                             <constraint firstItem="eRh-LS-mA7" firstAttribute="centerX" secondItem="yza-5U-W9t" secondAttribute="centerX" id="zUS-xw-e3a"/>
@@ -350,17 +359,15 @@
                     </view>
                     <navigationItem key="navigationItem" id="Chr-NF-V3O"/>
                     <connections>
-                        <outlet property="URLButton" destination="2Es-ds-pJ6" id="Imb-MK-Wwo"/>
                         <outlet property="bodyText" destination="CmX-zL-QNB" id="nTr-g9-nit"/>
                         <outlet property="creditsLabel" destination="Ob6-QI-88X" id="meJ-Eh-6uH"/>
                         <outlet property="dropNdragButton" destination="Hqu-yN-2K8" id="CAt-oQ-iBA"/>
                         <outlet property="libraryButton" destination="Wpe-YC-7yY" id="LiR-8H-kye"/>
                         <outlet property="lineLabel" destination="3fT-Hj-Pyn" id="SKd-dj-HYQ"/>
                         <outlet property="liveButton" destination="cnu-iT-aOm" id="OeD-tQ-bDe"/>
-                        <outlet property="movieButton" destination="FWq-LW-ysI" id="KZe-r3-Vb4"/>
+                        <outlet property="pickerStations" destination="Gev-gM-otj" id="PiV-dg-r9A"/>
                         <outlet property="postButton" destination="eRh-LS-mA7" id="IFQ-oh-L9D"/>
                         <outlet property="returnLabel" destination="gNE-GR-Kt9" id="DhQ-vv-Tpg"/>
-                        <outlet property="soundByteButton" destination="RHh-BM-fVD" id="ibY-vG-5wq"/>
                         <outlet property="titleTextField" destination="qBQ-kS-hwQ" id="eH5-MJ-mtS"/>
                     </connections>
                 </viewController>

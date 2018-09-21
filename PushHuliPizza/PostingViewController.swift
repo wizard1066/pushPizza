@@ -7,29 +7,121 @@
 //
 
 import UIKit
+import MobileCoreServices
 
-class PostingViewController: UIViewController, URLSessionDelegate {
+class PostingViewController: UIViewController, URLSessionDelegate, UIDocumentPickerDelegate,UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate, UITextViewDelegate {
+    
+    var stationsRegistered:[String] = ["English","French","Italian","German"]
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        titleTextField.resignFirstResponder()
+        return true
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        titleTextField.resignFirstResponder()
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        self.view.endEditing(true)
+        bodyText.resignFirstResponder()
+    }
+    
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return stationsRegistered.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return stationsRegistered[row]
+    }
+    
 
     @IBOutlet weak var postButton: UIButton!
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var bodyText: UITextView!
     @IBOutlet weak var liveButton: UIButton!
     @IBOutlet weak var libraryButton: UIButton!
-    @IBOutlet weak var soundByteButton: UIButton!
-    @IBOutlet weak var movieButton: UIButton!
-    @IBOutlet weak var URLButton: UIButton!
     @IBOutlet weak var lineLabel: UILabel!
     @IBOutlet weak var creditsLabel: UILabel!
     @IBOutlet weak var returnLabel: UIButton!
+    @IBOutlet weak var pickerStations: UIPickerView!
     
     @IBAction func returnAction(_ sender: UIButton) {
         dismiss(animated: true, completion: nil)
     }
+ 
+    @IBAction func liveButton(_ sender: UIButton) {
+        let picker = UIImagePickerController()
+        picker.sourceType = .camera
+        picker.mediaTypes = [kUTTypeImage as String]
+        picker.allowsEditing = true
+        picker.delegate = self
+        present(picker, animated: true)
+    }
     
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.presentingViewController?.dismiss(animated: true, completion: {
+            //            let prox2U = self.manProx != nil ? self.manProx : self.lastProximity
+            //           self.setWayPoint.didSetProximity(name: self.nameTextField.text, proximity: prox2U)
+        })
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        if let image = (info[UIImagePickerControllerEditedImage] as? UIImage ?? info[UIImagePickerControllerOriginalImage] as? UIImage) {
+            DispatchQueue.main.async {
+                //                self.updateImage(image2U: image)
+//                self.setWayPoint.didSetImage(name: self.nameTextField.text, image: image)
+            }
+        }
+        picker.presentingViewController?.dismiss(animated: true, completion: {
+            //            let prox2U = self.manProx != nil ? self.manProx : self.lastProximity
+            //            self.setWayPoint.didSetProximity(name: self.nameTextField.text, proximity: prox2U)
+        })
+    }
+    
+    @IBAction func libraryButton(_ sender: Any) {
+        let picker = UIImagePickerController()
+        picker.sourceType = .photoLibrary
+        picker.mediaTypes = [kUTTypeImage as String]
+        picker.allowsEditing = true
+        picker.delegate = self
+        present(picker, animated: true)
+    }
+    
+    @IBAction func dropNdragButton(_ sender: Any) {
+        let documentPicker = UIDocumentPickerViewController(documentTypes: [(kUTTypeImage as NSString) as String], in: .import)
+        documentPicker.delegate = self
+        present(documentPicker, animated: false, completion: {
+            //done
+        })
+    }
+    
+    func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentAt url: URL) {
+        getDataFromUrl(url: url) { data, response, error in
+            guard let data = data, error == nil else { return }
+
+            DispatchQueue.main.async() {
+//
+//                self.setWayPoint.didSetImage(name: self.nameTextField.text!, image: UIImage(data: data))
+            }
+        }
+    }
+    
+    func getDataFromUrl(url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> ()) {
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            completion(data, response, error)
+            }.resume()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        titleTextField.delegate = self
+        bodyText.delegate = self
         // Do any additional setup after loading the view.
     }
     @IBOutlet weak var dropNdragButton: UIButton!
@@ -81,6 +173,6 @@ class PostingViewController: UIViewController, URLSessionDelegate {
         loginTask.resume()
     }
     
-
+    
         
 }
