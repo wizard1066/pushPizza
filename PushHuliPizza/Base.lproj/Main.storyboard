@@ -22,31 +22,43 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="iZp-Ak-VOb">
-                                <rect key="frame" x="67.5" y="160" width="240" height="30"/>
+                                <rect key="frame" x="67.5" y="155" width="240" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="240" id="KEv-lx-1Sm"/>
                                 </constraints>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" name="AvenirNextCondensed-Regular" family="Avenir Next Condensed" pointSize="17"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="done" secureTextEntry="YES" textContentType="password"/>
                             </textField>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="NMG-Gw-LDW">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="NMG-Gw-LDW">
                                 <rect key="frame" x="67.5" y="269.5" width="240" height="128"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="240" id="WtO-o2-ScI"/>
-                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="240" id="wxx-Ug-ltc"/>
+                                    <constraint firstAttribute="height" constant="128" id="wxx-Ug-ltc"/>
                                 </constraints>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" id="1tD-ds-3oa">
+                                        <rect key="frame" x="0.0" y="28" width="240" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="1tD-ds-3oa" id="pKP-Sa-wK8">
+                                            <rect key="frame" x="0.0" y="0.0" width="240" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="ZU7-wl-qQH" id="oDS-NJ-vEh"/>
+                                    <outlet property="delegate" destination="ZU7-wl-qQH" id="O6Q-MS-imt"/>
+                                </connections>
                             </tableView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="t94-c4-aoy">
                                 <rect key="frame" x="164.5" y="622" width="46" height="37"/>
                                 <fontDescription key="fontDescription" name="AvenirNextCondensed-DemiBoldItalic" family="Avenir Next Condensed" pointSize="18"/>
                                 <state key="normal" title="Return"/>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="suS-RI-Kw7">
-                                <rect key="frame" x="163" y="32" width="61" height="37"/>
-                                <fontDescription key="fontDescription" name="AvenirNextCondensed-Bold" family="Avenir Next Condensed" pointSize="18"/>
-                                <state key="normal" title="Register"/>
+                                <connections>
+                                    <action selector="returnAction:" destination="ZU7-wl-qQH" eventType="touchUpInside" id="6vR-OB-PRT"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Credits" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yXG-O7-XYx">
                                 <rect key="frame" x="167.5" y="592" width="40" height="22"/>
@@ -66,17 +78,17 @@
                                 <state key="normal" title="Share"/>
                             </button>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Line" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OO1-Y4-dOo">
-                                <rect key="frame" x="67.5" y="122" width="240" height="30"/>
+                                <rect key="frame" x="67.5" y="117" width="240" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="240" id="BiY-hw-KN6"/>
                                     <constraint firstAttribute="height" constant="30" id="Sx6-fO-yDa"/>
                                 </constraints>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" name="AvenirNextCondensed-Regular" family="Avenir Next Condensed" pointSize="17"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="done" textContentType="name"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="giI-7y-gM1">
-                                <rect key="frame" x="159.5" y="77" width="56" height="37"/>
+                                <rect key="frame" x="159.5" y="72" width="56" height="37"/>
                                 <fontDescription key="fontDescription" name="AvenirNextCondensed-DemiBoldItalic" family="Avenir Next Condensed" pointSize="18"/>
                                 <state key="normal" title="Register"/>
                             </button>
@@ -84,16 +96,13 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="t94-c4-aoy" firstAttribute="centerX" secondItem="Or5-8y-kaI" secondAttribute="centerX" id="0pH-Rs-MNI"/>
-                            <constraint firstAttribute="trailing" secondItem="suS-RI-Kw7" secondAttribute="trailing" constant="151" id="4fP-kf-VHK"/>
                             <constraint firstItem="d8g-65-G8t" firstAttribute="top" secondItem="K1S-v7-4Qe" secondAttribute="bottom" constant="8" id="59a-QA-JbU"/>
                             <constraint firstItem="giI-7y-gM1" firstAttribute="centerX" secondItem="Or5-8y-kaI" secondAttribute="centerX" id="7WB-XN-s9c"/>
-                            <constraint firstItem="suS-RI-Kw7" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Or5-8y-kaI" secondAttribute="leading" symbolic="YES" id="Fav-gD-J7E"/>
+                            <constraint firstItem="giI-7y-gM1" firstAttribute="top" secondItem="gqH-Ug-0TR" secondAttribute="bottom" constant="8" id="GRt-S3-kns"/>
                             <constraint firstItem="K1S-v7-4Qe" firstAttribute="centerX" secondItem="Or5-8y-kaI" secondAttribute="centerX" id="MHH-xf-5Sn"/>
-                            <constraint firstItem="suS-RI-Kw7" firstAttribute="top" secondItem="Or5-8y-kaI" secondAttribute="topMargin" constant="-32" id="Oq1-PV-bPU"/>
                             <constraint firstItem="iZp-Ak-VOb" firstAttribute="top" secondItem="OO1-Y4-dOo" secondAttribute="bottom" constant="8" id="SOK-5n-H2Z"/>
                             <constraint firstItem="NMG-Gw-LDW" firstAttribute="centerY" secondItem="Or5-8y-kaI" secondAttribute="centerY" id="TH8-ha-Ddi"/>
                             <constraint firstItem="iZp-Ak-VOb" firstAttribute="centerX" secondItem="Or5-8y-kaI" secondAttribute="centerX" id="Ylj-Wt-2v1"/>
-                            <constraint firstItem="giI-7y-gM1" firstAttribute="top" secondItem="suS-RI-Kw7" secondAttribute="bottom" constant="8" symbolic="YES" id="ZNf-Tt-UJc"/>
                             <constraint firstItem="yXG-O7-XYx" firstAttribute="top" secondItem="d8g-65-G8t" secondAttribute="bottom" constant="8" id="jXb-KP-fWt"/>
                             <constraint firstItem="d8g-65-G8t" firstAttribute="centerX" secondItem="Or5-8y-kaI" secondAttribute="centerX" id="jpj-y2-PFf"/>
                             <constraint firstItem="NMG-Gw-LDW" firstAttribute="centerX" secondItem="Or5-8y-kaI" secondAttribute="centerX" id="oDj-bx-CeG"/>
@@ -105,6 +114,16 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="dz7-Bt-8m4"/>
+                    <connections>
+                        <outlet property="creditsLabel" destination="yXG-O7-XYx" id="bPP-NI-5Hg"/>
+                        <outlet property="lineButton" destination="OO1-Y4-dOo" id="8DG-ZJ-qGa"/>
+                        <outlet property="messagesLabel" destination="d8g-65-G8t" id="knH-aQ-1lR"/>
+                        <outlet property="passwordButton" destination="iZp-Ak-VOb" id="uEp-hd-ZJq"/>
+                        <outlet property="registerButton" destination="giI-7y-gM1" id="e1T-gC-roe"/>
+                        <outlet property="returnButton" destination="t94-c4-aoy" id="55v-tO-XSy"/>
+                        <outlet property="shareButton" destination="K1S-v7-4Qe" id="SQX-HE-II8"/>
+                        <outlet property="stationsTable" destination="NMG-Gw-LDW" id="7Fz-ht-ye1"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aUE-2T-33i" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -203,7 +222,12 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="radioLabel" destination="xMb-Go-WRd" id="YsL-xx-gUC"/>
+                        <outlet property="configButton" destination="Ib0-iq-pDk" id="p1R-lS-o5x"/>
+                        <outlet property="linesPicker" destination="yD9-AF-qAk" id="bqR-nG-vnd"/>
+                        <outlet property="pendingPostsButton" destination="j3X-nZ-UeZ" id="Hos-ts-s4H"/>
+                        <outlet property="postingButton" destination="33e-0w-fSl" id="qH9-8h-eCQ"/>
+                        <outlet property="previousPostsButton" destination="YyA-7H-TUf" id="a8v-wG-LFA"/>
+                        <outlet property="stationsPicker" destination="TpH-Cb-LWQ" id="CKs-c8-kZa"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -273,11 +297,17 @@
                                 <rect key="frame" x="168.5" y="625" width="38" height="34"/>
                                 <fontDescription key="fontDescription" name="AvenirNextCondensed-Regular" family="Avenir Next Condensed" pointSize="16"/>
                                 <state key="normal" title="Return"/>
+                                <connections>
+                                    <action selector="returnAction:" destination="FKP-Lm-uMP" eventType="touchUpInside" id="Ke6-yn-8u0"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eRh-LS-mA7">
                                 <rect key="frame" x="172.5" y="72" width="30" height="37"/>
                                 <fontDescription key="fontDescription" name="AvenirNextCondensed-DemiBoldItalic" family="Avenir Next Condensed" pointSize="18"/>
                                 <state key="normal" title="Post"/>
+                                <connections>
+                                    <action selector="postAction:" destination="FKP-Lm-uMP" eventType="touchUpInside" id="pPj-rA-P2L"/>
+                                </connections>
                             </button>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Title" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qBQ-kS-hwQ">
                                 <rect key="frame" x="67.5" y="117" width="240" height="30"/>
@@ -319,6 +349,20 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Chr-NF-V3O"/>
+                    <connections>
+                        <outlet property="URLButton" destination="2Es-ds-pJ6" id="Imb-MK-Wwo"/>
+                        <outlet property="bodyText" destination="CmX-zL-QNB" id="nTr-g9-nit"/>
+                        <outlet property="creditsLabel" destination="Ob6-QI-88X" id="meJ-Eh-6uH"/>
+                        <outlet property="dropNdragButton" destination="Hqu-yN-2K8" id="CAt-oQ-iBA"/>
+                        <outlet property="libraryButton" destination="Wpe-YC-7yY" id="LiR-8H-kye"/>
+                        <outlet property="lineLabel" destination="3fT-Hj-Pyn" id="SKd-dj-HYQ"/>
+                        <outlet property="liveButton" destination="cnu-iT-aOm" id="OeD-tQ-bDe"/>
+                        <outlet property="movieButton" destination="FWq-LW-ysI" id="KZe-r3-Vb4"/>
+                        <outlet property="postButton" destination="eRh-LS-mA7" id="IFQ-oh-L9D"/>
+                        <outlet property="returnLabel" destination="gNE-GR-Kt9" id="DhQ-vv-Tpg"/>
+                        <outlet property="soundByteButton" destination="RHh-BM-fVD" id="ibY-vG-5wq"/>
+                        <outlet property="titleTextField" destination="qBQ-kS-hwQ" id="eH5-MJ-mtS"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nQE-UW-EbT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
