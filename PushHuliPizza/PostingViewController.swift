@@ -197,7 +197,6 @@ class PostingViewController: UIViewController, URLSessionDelegate, UIDocumentPic
     var devices2Post2:[String] = []
     
     @IBAction func postAction(_ sender: UIButton) {
-
         devices2Post2 = tokensRead
         scheduledTimerWithTimeInterval()
     }
@@ -211,9 +210,9 @@ class PostingViewController: UIViewController, URLSessionDelegate, UIDocumentPic
     }
     
     @objc func updateCounting(){
-        var apnsSubSub = ["title":titleTextField.text,"body":bodyText.text]
-        var apnsSub = ["alert":apnsSubSub]
-        var apnsPayload = ["aps":apnsSub]
+        let apnsSubSub = ["title":titleTextField.text,"body":bodyText.text]
+        let apnsSub = ["alert":apnsSubSub]
+        let apnsPayload = ["aps":apnsSub]
         if devices2Post2.count > 0 {
             buildPost(token2U: devices2Post2.removeLast(), apns2S: apnsPayload)
             clientLabel.text = "\(postsMade)"

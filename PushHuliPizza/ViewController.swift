@@ -164,6 +164,11 @@ class ViewController: UIViewController, SFSafariViewControllerDelegate, UITextFi
         if pickerView.tag == 0 {
             if linesRead.count > 0 {
                 cloudDB.share.returnStationsOnLine(line2Seek: linesRead[row])
+                lineSelected = linesRead[row]
+            }
+        } else {
+            if stationsRead.count > 0 {
+                stationSelected = stationsRead[row]
             }
         }
     }
@@ -208,7 +213,7 @@ class ViewController: UIViewController, SFSafariViewControllerDelegate, UITextFi
             let pVC = destination as? PostingViewController
             pVC?.bahninfo = lineSelected
             pVC?.hofinfo = stationSelected
-            print("posting")
+            print("posting \(lineSelected) \(stationSelected)")
         }
         if segue.identifier == segueNames.configuration {
             let pVC = destination as? ConfigViewController

@@ -14,7 +14,6 @@
 		7B43B3BF2154004B00173B69 /* ConfigViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B43B3BE2154004B00173B69 /* ConfigViewController.swift */; };
 		7B43B3C12154007500173B69 /* PostingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B43B3C02154007500173B69 /* PostingViewController.swift */; };
 		7B7008E42152A7E000D8CF9E /* APNS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7008E32152A7E000D8CF9E /* APNS.swift */; };
-		7B7008EA2152D32500D8CF9E /* Certificates.p12 in Resources */ = {isa = PBXBuildFile; fileRef = 7B7008E92152D32500D8CF9E /* Certificates.p12 */; };
 		7B9ED8A121551C640026711B /* CommonKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B9ED8A021551C640026711B /* CommonKit.swift */; };
 		E147B98A1E29846300E66CF5 /* HuliPizzaPayload.apns in Resources */ = {isa = PBXBuildFile; fileRef = E147B9891E29846300E66CF5 /* HuliPizzaPayload.apns */; };
 		E1C45FDA1E29408100F271B4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C45FD91E29408100F271B4 /* AppDelegate.swift */; };
@@ -45,7 +44,6 @@
 		7B43B3BE2154004B00173B69 /* ConfigViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigViewController.swift; sourceTree = "<group>"; };
 		7B43B3C02154007500173B69 /* PostingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostingViewController.swift; sourceTree = "<group>"; };
 		7B7008E32152A7E000D8CF9E /* APNS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APNS.swift; sourceTree = "<group>"; };
-		7B7008E92152D32500D8CF9E /* Certificates.p12 */ = {isa = PBXFileReference; lastKnownFileType = file; path = Certificates.p12; sourceTree = "<group>"; };
 		7B9ED8A021551C640026711B /* CommonKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonKit.swift; sourceTree = "<group>"; };
 		7BD385C6214D8493008FD003 /* UserNotificationsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotificationsUI.framework; path = System/Library/Frameworks/UserNotificationsUI.framework; sourceTree = SDKROOT; };
 		7BD385C7214D8493008FD003 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
@@ -103,7 +101,6 @@
 			isa = PBXGroup;
 			children = (
 				E1C45FEB1E2940C900F271B4 /* PushHuliPizza.entitlements */,
-				7B7008E92152D32500D8CF9E /* Certificates.p12 */,
 				E1C45FD91E29408100F271B4 /* AppDelegate.swift */,
 				7B7008E32152A7E000D8CF9E /* APNS.swift */,
 				7B43B3BA2153C01100173B69 /* Cert.p12 */,
@@ -197,7 +194,6 @@
 				7B43B3BB2153C01100173B69 /* Cert.p12 in Resources */,
 				7B43B3B92153BF6600173B69 /* Cert.pem in Resources */,
 				E1C45FE41E29408100F271B4 /* LaunchScreen.storyboard in Resources */,
-				7B7008EA2152D32500D8CF9E /* Certificates.p12 in Resources */,
 				E1C45FE11E29408100F271B4 /* Assets.xcassets in Resources */,
 				E1C45FDF1E29408100F271B4 /* Main.storyboard in Resources */,
 				E147B98A1E29846300E66CF5 /* HuliPizzaPayload.apns in Resources */,
