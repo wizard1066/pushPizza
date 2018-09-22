@@ -190,6 +190,37 @@ class ViewController: UIViewController, SFSafariViewControllerDelegate, UITextFi
                 self.stationsPicker.reloadAllComponents()
             }
         }
+        let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(ViewController.showPosting))
+        swipeLeft.direction = .left
+        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(ViewController.showConfig))
+        swipeRight.direction = .right
+        self.view.addGestureRecognizer(swipeLeft)
+        self.view.addGestureRecognizer(swipeRight)
+        
+    }
+    
+    func showPosting() {
+//        if segue.identifier == segueNames.posting {
+//            let pVC = destination as? PostingViewController
+//            pVC?.bahninfo = lineSelected
+//            pVC?.hofinfo = stationSelected
+//            print("posting \(lineSelected) \(stationSelected)")
+//        }
+//        let destination = segue.destination.contents
+//        let pVC = destination as? PostingViewController
+//        self.navigationController?.pushViewController(pVC, animated: true)
+//        performSegue(withIdentifier: segueNames.posting, sender: self)
+    }
+    
+    func showConfig() {
+//        let destination = segue.destination.contents
+//        let pVC = destination as? ConfigViewController
+//        self.navigationController?.pushViewController(pVC, animated: true)
+//
+//        if segue.identifier == segueNames.configuration {
+//            let pVC = destination as? ConfigViewController
+//            print("config")
+//        }
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -221,6 +252,8 @@ class ViewController: UIViewController, SFSafariViewControllerDelegate, UITextFi
         }
     }
 }
+
+
 
 extension UIViewController {
     var contents: UIViewController {

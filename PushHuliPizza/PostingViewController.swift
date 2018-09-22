@@ -162,8 +162,10 @@ class PostingViewController: UIViewController, URLSessionDelegate, UIDocumentPic
         if tokenCheque == nil {
             cloudDB.share.returnAllTokens()
             tokenCheque = tokensRead.count
-            self.pickerStations.selectRow(hofinfo, inComponent: 0, animated: true)
-            rowSelected = hofinfo
+            if hofinfo != nil {
+                self.pickerStations.selectRow(hofinfo, inComponent: 0, animated: true)
+                rowSelected = hofinfo
+            }
         }
         clientLabel.text = "\(tokensRead.count)"
         // Do any additional setup after loading the view.
@@ -172,6 +174,7 @@ class PostingViewController: UIViewController, URLSessionDelegate, UIDocumentPic
     
     override func viewDidAppear(_ animated: Bool) {
         lineLabel.text = bahninfo
+        self.hideKeyboardWhenTappedAround()
     }
     
     @IBOutlet weak var dropNdragButton: UIButton!

@@ -138,6 +138,10 @@ class ConfigViewController: UIViewController, UITableViewDelegate, UITableViewDa
         let pinObserver = center.addObserver(forName: NSNotification.Name(rawValue: alert2Monitor), object: nil, queue: queue) { (notification) in
             self.confirmRegistration()
         }
+//        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
+//        tap.numberOfTapsRequired = 2
+//        view.addGestureRecognizer(tap)
+        self.hideKeyboardWhenTappedAround()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -146,6 +150,18 @@ class ConfigViewController: UIViewController, UITableViewDelegate, UITableViewDa
             center.removeObserver(pinObserver)
         }
     }
+    
+    
+    
+    //Uncomment the line below if you want the tap not not interfere and cancel other interactions.
+    //tap.cancelsTouchesInView = false
+    
+    
+    
+//    func dismissKeyboard() {
+//        //Causes the view (or one of its embedded text fields) to resign the first responder status.
+//        view.endEditing(true)
+//    }
     
 
     //    func doSafariVC(url2U: String) {
@@ -233,4 +249,17 @@ class ConfigViewController: UIViewController, UITableViewDelegate, UITableViewDa
     //        appDelegate.colorZet.insert("red")
     //    }
 
+}
+
+extension UIViewController {
+    func hideKeyboardWhenTappedAround() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        tap.numberOfTapsRequired = 2
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
 }
