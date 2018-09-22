@@ -32,10 +32,9 @@ class ConfigViewController: UIViewController, UITableViewDelegate, UITableViewDa
             alert.addTextField(configurationHandler: { (textField) in
                 textField.text = self.stationsTable.cellForRow(at: indexPath)?.textLabel?.text
             })
-            alert.addAction(UIAlertAction(title: "Update", style: .default, handler: { (updateAction) in
-                self.stationsTable.cellForRow(at: indexPath)?.textLabel?.text = alert.textFields!.first!.text!
-                self.stationsRegistered[indexPath.row] = alert.textFields!.first!.text!
-                self.stationsTable.reloadRows(at: [indexPath], with: .fade)
+            alert.addAction(UIAlertAction(title: "Insert", style: .default, handler: { (updateAction) in
+                self.stationsRegistered.insert("", at: indexPath.row)
+                self.stationsTable.insertRows(at: [indexPath], with: .fade)
             }))
             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
             self.present(alert, animated: false)
@@ -64,6 +63,37 @@ class ConfigViewController: UIViewController, UITableViewDelegate, UITableViewDa
             self.present(alert, animated: false)
       
     }
+    
+    @available(iOS 11.0, *)
+    func tableView(_ tableView: UITableView,
+                   leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration?
+    {
+        let closeAction = UIContextualAction(style: .normal, title:  "Insert", handler: { (ac:UIContextualAction, view:UIView, success:(Bool) -> Void) in
+            self.stationsRegistered.insert("", at: indexPath.row)
+            self.stationsTable.insertRows(at: [indexPath], with: .fade)
+            success(true)
+        })
+        closeAction.image = UIImage(named: "tick")
+        closeAction.backgroundColor = .purple
+        
+        return UISwipeActionsConfiguration(actions: [closeAction])
+        
+    }
+    
+    @available(iOS 11.0, *)
+    func tableView(_ tableView: UITableView,
+                   trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration?
+    {
+        let modifyAction = UIContextualAction(style: .normal, title:  "Delete", handler: { (ac:UIContextualAction, view:UIView, success:(Bool) -> Void) in
+            self.stationsRegistered.remove(at: indexPath.row)
+            tableView.reloadData()
+            success(true)
+        })
+        modifyAction.image = UIImage(named: "hammer")
+        modifyAction.backgroundColor = .red
+        
+        return UISwipeActionsConfiguration(actions: [modifyAction])
+    }
 
     @IBOutlet weak var registerButton: UIButton!
     
@@ -84,6 +114,12 @@ class ConfigViewController: UIViewController, UITableViewDelegate, UITableViewDa
         cloudDB.share.updateLine(lineName: lineText.text!, stationNames: stationsRegistered, linePassword: passText.text!)
     }
     
+    func confirmRegistration() {
+        let alert = UIAlertController(title: "Line registered", message: "Your new line is registered", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+        self.present(alert, animated: true)
+    }
+    
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     var stationsRegistered:[String] = ["good","bad","ugly"]
     
@@ -91,6 +127,24 @@ class ConfigViewController: UIViewController, UITableViewDelegate, UITableViewDa
         super.viewDidLoad()
         stationsTable.rowHeight = 32
         // Do any additional setup after loading the view.
+    }
+    
+    private var pinObserver: NSObjectProtocol!
+    
+    override func viewDidAppear(_ animated: Bool) {
+        let center = NotificationCenter.default
+        let queue = OperationQueue.main
+        let alert2Monitor = "confirmPin"
+        let pinObserver = center.addObserver(forName: NSNotification.Name(rawValue: alert2Monitor), object: nil, queue: queue) { (notification) in
+            self.confirmRegistration()
+        }
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        let center = NotificationCenter.default
+        if pinObserver != nil {
+            center.removeObserver(pinObserver)
+        }
     }
     
 

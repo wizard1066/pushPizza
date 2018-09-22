@@ -14,7 +14,7 @@ class PostingViewController: UIViewController, URLSessionDelegate, UIDocumentPic
 //    var stationsRegistered:[String] = ["English","French","Italian","German"]
     
     var bahninfo: String!
-    var hofinfo: String!
+    var hofinfo: Int!
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         titleTextField.resignFirstResponder()
@@ -153,13 +153,18 @@ class PostingViewController: UIViewController, URLSessionDelegate, UIDocumentPic
             }.resume()
     }
     
-    
+    var tokenCheque: Int?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         titleTextField.delegate = self
         bodyText.delegate = self
-        cloudDB.share.returnAllTokens()
+        if tokenCheque == nil {
+            cloudDB.share.returnAllTokens()
+            tokenCheque = tokensRead.count
+            self.pickerStations.selectRow(hofinfo, inComponent: 0, animated: true)
+            rowSelected = hofinfo
+        }
         clientLabel.text = "\(tokensRead.count)"
         // Do any additional setup after loading the view.
     }
@@ -197,8 +202,10 @@ class PostingViewController: UIViewController, URLSessionDelegate, UIDocumentPic
     var devices2Post2:[String] = []
     
     @IBAction func postAction(_ sender: UIButton) {
-        devices2Post2 = tokensRead
-        scheduledTimerWithTimeInterval()
+        if !timer.isValid {
+            devices2Post2 = tokensRead
+            scheduledTimerWithTimeInterval()
+        }
     }
     
     var postsMade = 0

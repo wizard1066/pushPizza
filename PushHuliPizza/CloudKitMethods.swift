@@ -58,6 +58,9 @@ var sharedDB: CKDatabase!
                 defaults.set(stationNames, forKey: remoteAttributes.stationNames)
                 linesRead.append(lineName)
                 linesGood2Go = !linesGood2Go
+                let peru = Notification.Name("confirmPin")
+                NotificationCenter.default.post(name: peru, object: nil, userInfo: nil)
+                print("didSet")
             }
         }))
     }

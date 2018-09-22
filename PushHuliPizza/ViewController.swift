@@ -67,11 +67,7 @@ class ViewController: UIViewController, SFSafariViewControllerDelegate, UITextFi
 //        doSafariVC(url2U: channel4URL!)
 //    }
     
-//    func showRules() {
-//        let alert = UIAlertController(title: "You need channel + http + password?", message: "You need a channel + http + password", preferredStyle: .alert)
-//        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-//        self.present(alert, animated: true)
-//    }
+
     
 //    func badURL() {
 //        let alert = UIAlertController(title: "Bad URL?", message: "Sorry, unable to open that URL \(channel4URL)", preferredStyle: .alert)
@@ -123,7 +119,7 @@ class ViewController: UIViewController, SFSafariViewControllerDelegate, UITextFi
     
     var rowSelected:Int?
     var lineSelected: String?
-    var stationSelected: String?
+    var stationSelected: Int?
     
     func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
         
@@ -162,18 +158,19 @@ class ViewController: UIViewController, SFSafariViewControllerDelegate, UITextFi
         rowSelected = row
         pickerView.reloadAllComponents()
         if pickerView.tag == 0 {
-            if linesRead.count > 0 {
+            if linesRead.count > 0 && row < linesRead.count {
                 cloudDB.share.returnStationsOnLine(line2Seek: linesRead[row])
                 lineSelected = linesRead[row]
             }
         } else {
-            if stationsRead.count > 0 {
-                stationSelected = stationsRead[row]
+            if stationsRead.count > 0 && row < stationsRead.count {
+                stationSelected = row
             }
         }
     }
     
     private var pinObserver: NSObjectProtocol!
+    private var pinObserver2: NSObjectProtocol!
     
     override func viewDidAppear(_ animated: Bool) {
 //        doAnimation()
@@ -187,7 +184,7 @@ class ViewController: UIViewController, SFSafariViewControllerDelegate, UITextFi
             }
         }
         let alert2Monitor2 = "stationPin"
-        pinObserver = center.addObserver(forName: NSNotification.Name(rawValue: alert2Monitor2), object: nil, queue: queue) { (notification) in
+        pinObserver2 = center.addObserver(forName: NSNotification.Name(rawValue: alert2Monitor2), object: nil, queue: queue) { (notification) in
             if self.stationsPicker != nil {
                 self.stationsPicker.selectRow(0, inComponent: 0, animated: true)
                 self.stationsPicker.reloadAllComponents()
@@ -199,6 +196,9 @@ class ViewController: UIViewController, SFSafariViewControllerDelegate, UITextFi
         let center = NotificationCenter.default
         if pinObserver != nil {
             center.removeObserver(pinObserver)
+        }
+        if pinObserver2 != nil {
+            center.removeObserver(pinObserver2)
         }
     }
 
