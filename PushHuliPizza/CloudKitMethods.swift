@@ -44,19 +44,20 @@ var sharedDB: CKDatabase!
     
     public func saveLine(lineName: String, stationNames:[String], linePassword:String) {
         let customRecord = CKRecord(recordType: remoteRecords.notificationLine)
-        customRecord[remoteRecords.lineName] = lineName
-        customRecord[remoteRecords.linePassword] = linePassword
-        customRecord[remoteRecords.stationNames] = stationNames
+        customRecord[remoteAttributes.lineName] = lineName
+        customRecord[remoteAttributes.linePassword] = linePassword
+        customRecord[remoteAttributes.stationNames] = stationNames
         cloudDB.share.publicDB.save(customRecord, completionHandler: ({returnRecord, error in
             if error != nil {
                 
                 print("saveLine error \(error)")
             } else {
                 let defaults = UserDefaults.standard
-                defaults.set(lineName, forKey: remoteRecords.lineName)
-                defaults.set(linePassword, forKey: remoteRecords.linePassword)
-                defaults.set(stationNames, forKey: remoteRecords.stationNames)
-                
+                defaults.set(lineName, forKey: remoteAttributes.lineName)
+                defaults.set(linePassword, forKey: remoteAttributes.linePassword)
+                defaults.set(stationNames, forKey: remoteAttributes.stationNames)
+                linesRead.append(lineName)
+                linesGood2Go = !linesGood2Go
             }
         }))
     }
@@ -75,9 +76,9 @@ var sharedDB: CKDatabase!
     }
     
     public func saveToken(token2Save: String) {
-        print("token2Save \(token2Save)")
+        
         let customRecord = CKRecord(recordType: remoteRecords.devicesLogged)
-        customRecord[remoteRecords.lineName] = token2Save
+        customRecord[remoteAttributes.deviceRegistered] = token2Save
         cloudDB.share.publicDB.save(customRecord, completionHandler: ({returnRecord, error in
             if error != nil {
                 
@@ -88,7 +89,92 @@ var sharedDB: CKDatabase!
             }
         }))
     }
-
+    
+    public func updateLine(lineName: String, stationNames:[String], linePassword:String) {
+//        let predicate = NSPredicate(value: true)
+        let predicate = NSPredicate(format: remoteAttributes.lineName + " = %@", lineName)
+        let query = CKQuery(recordType: remoteRecords.notificationLine, predicate: predicate)
+        cloudDB.share.publicDB.perform(query, inZoneWith: nil) { (records, error) in
+            if error != nil {
+                print(error!.localizedDescription)
+            } else {
+                
+                if records?.count == 0 {
+                    self.saveLine(lineName: lineName, stationNames: stationNames, linePassword: linePassword)
+                } else {
+                    // Modify record
+                }
+            }
+        }
+    
+    }
+    
+    public func returnAllLines() {
+        let predicate = NSPredicate(value: true)
+        let query = CKQuery(recordType: remoteRecords.notificationLine, predicate: predicate)
+        cloudDB.share.publicDB.perform(query, inZoneWith: nil) { (records, error) in
+            if error != nil {
+                print(error!.localizedDescription)
+            } else {
+                for record in records! {
+                    linesRead.append(record[remoteAttributes.lineName]!)
+                }
+                linesGood2Go = !linesGood2Go
+                print("tokens read \(tokensRead)")
+            }
+        }
+    }
+    
+    public func returnStationsOnLine(line2Seek: String) {
+        let predicate = NSPredicate(format: remoteAttributes.lineName + " = %@", line2Seek)
+        let query = CKQuery(recordType: remoteRecords.notificationLine, predicate: predicate)
+        cloudDB.share.publicDB.perform(query, inZoneWith: nil) { (records, error) in
+        if error != nil {
+        print(error!.localizedDescription)
+        } else {
+            if records!.count > 0 {
+                stationsRead = records!.first![remoteAttributes.stationNames]!
+                stationsGood2Go = !stationsGood2Go
+            }
+            
+            }
+        }
+    }
+    
+    public func updateToken(token2Save: String) {
+        let predicate = NSPredicate(format: remoteAttributes.deviceRegistered + " = %@", token2Save)
+        let query = CKQuery(recordType: remoteRecords.devicesLogged, predicate: predicate)
+        cloudDB.share.publicDB.perform(query, inZoneWith: nil) { (records, error) in
+            if error != nil {
+                print(error!.localizedDescription)
+            } else {
+                
+                if records?.count == 0 {
+                    self.saveToken(token2Save: token2Save)
+                } else {
+                    // update record
+                }
+            }
+            
+        }
+    }
+    
+    
+    
+    public func returnAllTokens() {
+        let predicate = NSPredicate(value: true)
+        let query = CKQuery(recordType: remoteRecords.devicesLogged, predicate: predicate)
+        cloudDB.share.publicDB.perform(query, inZoneWith: nil) { (records, error) in
+            if error != nil {
+                print(error!.localizedDescription)
+            } else {
+                for record in records! {
+                    tokensRead.append(record[remoteAttributes.deviceRegistered]!)
+                }
+                print("tokens read \(tokensRead)")
+            }
+        }
+    }
 }
 
 

@@ -11,7 +11,10 @@ import MobileCoreServices
 
 class PostingViewController: UIViewController, URLSessionDelegate, UIDocumentPickerDelegate,UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate, UITextViewDelegate {
     
-    var stationsRegistered:[String] = ["English","French","Italian","German"]
+//    var stationsRegistered:[String] = ["English","French","Italian","German"]
+    
+    var bahninfo: String!
+    var hofinfo: String!
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         titleTextField.resignFirstResponder()
@@ -33,12 +36,14 @@ class PostingViewController: UIViewController, URLSessionDelegate, UIDocumentPic
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return stationsRegistered.count
+        return stationsRead.count
     }
     
 //    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
 //        return stationsRegistered[row]
 //    }
+    
+    var rowSelected:Int?
     
     func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
         
@@ -51,8 +56,22 @@ class PostingViewController: UIViewController, URLSessionDelegate, UIDocumentPic
             pickerLabel?.textAlignment = NSTextAlignment.center
         }
         
-        pickerLabel?.text = stationsRegistered[row]
+        pickerLabel?.text = stationsRead[row]
+        
+        if row == rowSelected {
+            pickerLabel?.textColor = UIColor.white
+            pickerLabel?.backgroundColor = UIColor.black.withAlphaComponent(0.4)
+        } else {
+            pickerLabel?.textColor = UIColor.black
+            pickerLabel?.backgroundColor = UIColor.clear
+        }
+        
         return pickerLabel!;
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        rowSelected = row
+        pickerView.reloadAllComponents()
     }
     
 
@@ -65,6 +84,7 @@ class PostingViewController: UIViewController, URLSessionDelegate, UIDocumentPic
     @IBOutlet weak var creditsLabel: UILabel!
     @IBOutlet weak var returnLabel: UIButton!
     @IBOutlet weak var pickerStations: UIPickerView!
+    @IBOutlet weak var clientLabel: UILabel!
     
     @IBAction func returnAction(_ sender: UIButton) {
         dismiss(animated: true, completion: nil)
@@ -133,12 +153,22 @@ class PostingViewController: UIViewController, URLSessionDelegate, UIDocumentPic
             }.resume()
     }
     
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         titleTextField.delegate = self
         bodyText.delegate = self
+        cloudDB.share.returnAllTokens()
+        clientLabel.text = "\(tokensRead.count)"
         // Do any additional setup after loading the view.
     }
+    
+    
+    override func viewDidAppear(_ animated: Bool) {
+        lineLabel.text = bahninfo
+    }
+    
     @IBOutlet weak var dropNdragButton: UIButton!
     
 
@@ -163,19 +193,46 @@ class PostingViewController: UIViewController, URLSessionDelegate, UIDocumentPic
         completionHandler(.useCredential,credentials)
     }
     
+    var timer = Timer()
+    var devices2Post2:[String] = []
+    
     @IBAction func postAction(_ sender: UIButton) {
+
+        devices2Post2 = tokensRead
+        scheduledTimerWithTimeInterval()
+    }
+    
+    var postsMade = 0
+    
+    func scheduledTimerWithTimeInterval(){
+        
+        // Scheduling timer to Call the function "updateCounting" with the interval of 1 seconds
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.updateCounting), userInfo: nil, repeats: true)
+    }
+    
+    @objc func updateCounting(){
         var apnsSubSub = ["title":titleTextField.text,"body":bodyText.text]
         var apnsSub = ["alert":apnsSubSub]
         var apnsPayload = ["aps":apnsSub]
-        
+        if devices2Post2.count > 0 {
+            buildPost(token2U: devices2Post2.removeLast(), apns2S: apnsPayload)
+            clientLabel.text = "\(postsMade)"
+            postsMade += 1
+        } else {
+            timer.invalidate()
+        }
+    }
+    
+   func buildPost(token2U: String, apns2S: Any) {
+    print("tokenPosted \(token2U)")
         let session = URLSession(configuration: .default, delegate: self, delegateQueue: OperationQueue.main)
         
-        var loginRequest = URLRequest(url: URL(string: "https://api.sandbox.push.apple.com/3/device/5effd4dfc158d922c877c1e3c99fd46296e2c1afcd080a63a2da397bce1c9bb3")!)
+        var loginRequest = URLRequest(url: URL(string: "https://api.sandbox.push.apple.com/3/device/" + token2U)!)
         loginRequest.allHTTPHeaderFields = ["apns-topic": "ch.cqd.PushHuliPizza",
                                             "content-type": "application/x-www-form-urlencoded"
         ]
         loginRequest.httpMethod = "POST"
-        let data = try? JSONSerialization.data(withJSONObject: apnsPayload, options:[])
+        let data = try? JSONSerialization.data(withJSONObject: apns2S, options:[])
         if let content = String(data: data!, encoding: String.Encoding.utf8) {
             // here `content` is the JSON dictionary containing the String
             print(content)

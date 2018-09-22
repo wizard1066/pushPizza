@@ -80,11 +80,12 @@ class ConfigViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     @IBAction func registerButton(_ sender: UIButton) {
-        cloudDB.share.saveLine(lineName: lineText.text!, stationNames: stationsRegistered, linePassword: passText.text!)
+//        cloudDB.share.saveLine(lineName: lineText.text!, stationNames: stationsRegistered, linePassword: passText.text!)
+        cloudDB.share.updateLine(lineName: lineText.text!, stationNames: stationsRegistered, linePassword: passText.text!)
     }
     
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
-    var stationsRegistered:[String] = ["English","French","Italian","German"]
+    var stationsRegistered:[String] = ["good","bad","ugly"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
