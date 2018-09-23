@@ -60,18 +60,6 @@
                                     <action selector="returnAction:" destination="ZU7-wl-qQH" eventType="touchUpInside" id="6vR-OB-PRT"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Credits" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yXG-O7-XYx">
-                                <rect key="frame" x="167.5" y="592" width="40" height="22"/>
-                                <fontDescription key="fontDescription" name="AvenirNextCondensed-Regular" family="Avenir Next Condensed" pointSize="16"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Messages" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d8g-65-G8t">
-                                <rect key="frame" x="159.5" y="562" width="56" height="22"/>
-                                <fontDescription key="fontDescription" name="AvenirNextCondensed-Regular" family="Avenir Next Condensed" pointSize="16"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Line" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OO1-Y4-dOo">
                                 <rect key="frame" x="67.5" y="120" width="240" height="30"/>
                                 <constraints>
@@ -81,6 +69,10 @@
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" name="AvenirNextCondensed-Regular" family="Avenir Next Condensed" pointSize="17"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="done" textContentType="name"/>
+                                <connections>
+                                    <action selector="killLine:" destination="ZU7-wl-qQH" eventType="touchDragInside" id="m1K-st-2mi"/>
+                                    <outlet property="textDragDelegate" destination="Or5-8y-kaI" id="UB8-qw-Prl"/>
+                                </connections>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="giI-7y-gM1">
                                 <rect key="frame" x="156.5" y="72" width="62" height="40"/>
@@ -90,9 +82,8 @@
                                     <action selector="registerButton:" destination="ZU7-wl-qQH" eventType="touchUpInside" id="cNC-KM-j7J"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Station" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NCY-ON-39Z">
-                                <rect key="frame" x="155" y="240" width="73" height="20"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Stations" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NCY-ON-39Z">
+                                <rect key="frame" x="146.5" y="241.5" width="82" height="20"/>
                                 <fontDescription key="fontDescription" name="HoeflerText-Black" family="Hoefler Text" pointSize="20"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -100,27 +91,23 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="NCY-ON-39Z" firstAttribute="centerX" secondItem="Or5-8y-kaI" secondAttribute="centerX" id="0DM-q0-5mp"/>
                             <constraint firstItem="t94-c4-aoy" firstAttribute="centerX" secondItem="Or5-8y-kaI" secondAttribute="centerX" id="0pH-Rs-MNI"/>
                             <constraint firstItem="giI-7y-gM1" firstAttribute="centerX" secondItem="Or5-8y-kaI" secondAttribute="centerX" id="7WB-XN-s9c"/>
                             <constraint firstItem="giI-7y-gM1" firstAttribute="top" secondItem="gqH-Ug-0TR" secondAttribute="bottom" constant="8" id="GRt-S3-kns"/>
                             <constraint firstItem="iZp-Ak-VOb" firstAttribute="top" secondItem="OO1-Y4-dOo" secondAttribute="bottom" constant="8" id="SOK-5n-H2Z"/>
                             <constraint firstItem="NMG-Gw-LDW" firstAttribute="centerY" secondItem="Or5-8y-kaI" secondAttribute="centerY" id="TH8-ha-Ddi"/>
+                            <constraint firstItem="NMG-Gw-LDW" firstAttribute="top" secondItem="NCY-ON-39Z" secondAttribute="bottom" constant="8" id="TO4-On-rBr"/>
                             <constraint firstItem="iZp-Ak-VOb" firstAttribute="centerX" secondItem="Or5-8y-kaI" secondAttribute="centerX" id="Ylj-Wt-2v1"/>
-                            <constraint firstItem="yXG-O7-XYx" firstAttribute="top" secondItem="d8g-65-G8t" secondAttribute="bottom" constant="8" id="jXb-KP-fWt"/>
-                            <constraint firstItem="d8g-65-G8t" firstAttribute="centerX" secondItem="Or5-8y-kaI" secondAttribute="centerX" id="jpj-y2-PFf"/>
                             <constraint firstItem="NMG-Gw-LDW" firstAttribute="centerX" secondItem="Or5-8y-kaI" secondAttribute="centerX" id="oDj-bx-CeG"/>
-                            <constraint firstItem="yXG-O7-XYx" firstAttribute="centerX" secondItem="Or5-8y-kaI" secondAttribute="centerX" id="rT8-Z8-mXr"/>
                             <constraint firstItem="1Jr-KB-R9r" firstAttribute="top" secondItem="t94-c4-aoy" secondAttribute="bottom" constant="8" id="rqy-PS-xRA"/>
                             <constraint firstItem="OO1-Y4-dOo" firstAttribute="top" secondItem="giI-7y-gM1" secondAttribute="bottom" constant="8" id="v1k-Uk-TFh"/>
                             <constraint firstItem="OO1-Y4-dOo" firstAttribute="centerX" secondItem="Or5-8y-kaI" secondAttribute="centerX" id="wHq-6a-ud8"/>
-                            <constraint firstItem="t94-c4-aoy" firstAttribute="top" secondItem="yXG-O7-XYx" secondAttribute="bottom" constant="8" id="wYJ-SC-AXS"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="dz7-Bt-8m4"/>
                     <connections>
-                        <outlet property="creditsLabel" destination="yXG-O7-XYx" id="bPP-NI-5Hg"/>
                         <outlet property="lineText" destination="OO1-Y4-dOo" id="pf0-9Y-ljY"/>
-                        <outlet property="messagesLabel" destination="d8g-65-G8t" id="knH-aQ-1lR"/>
                         <outlet property="passText" destination="iZp-Ak-VOb" id="1Ue-gV-TeW"/>
                         <outlet property="registerButton" destination="giI-7y-gM1" id="e1T-gC-roe"/>
                         <outlet property="returnButton" destination="t94-c4-aoy" id="55v-tO-XSy"/>

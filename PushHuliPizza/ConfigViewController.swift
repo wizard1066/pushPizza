@@ -27,8 +27,7 @@ class ConfigViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     @IBAction func registerButton(_ sender: UIButton) {
-//        cloudDB.share.saveLine(lineName: lineText.text!, stationNames: stationsRegistered, linePassword: passText.text!)
-        cloudDB.share.updateLine(lineName: lineText.text!, stationNames: stationsRegistered, linePassword: passText.text!)
+        cloudDB.share.updateLine(lineName: newText, stationNames: stationsRegistered, linePassword: newPass)
     }
     
     func confirmRegistration() {
@@ -39,20 +38,46 @@ class ConfigViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     // MARK: textfield delegate
     
+    var newText: String!
+    var newPass: String!
+    
     func textFieldDidEndEditing(_ textField: UITextField) {
-        print("lines read \(linesRead)")
-        if textField.placeholder == "Password", lineText.text != "" {
+        _ = verifyFields(textField: textField)
+    }
+    
+    @IBAction func killLine(_ sender: UITextField) {
+        if verifyFields(textField: sender) {
+            deleteLine()
+        }
+    }
+    
+    func verifyFields(textField:UITextField) -> Bool {
+        var result:Bool = false
+        if textField.placeholder == "Password", lineText.text == "" {
             // no lineName do nothing
-            return
+            return false
         }
-        if textField.placeholder == "Line", passText.text != "" {
+        if textField.placeholder == "Line", passText.text == "" {
             // do password do nothing
-            return
+            return false
         }
-        let verify = linesDictionary[lineText.text!]
+        newText = String(lineText.text!).trimmingCharacters(in: .whitespacesAndNewlines)
+        newPass = String(passText.text!).trimmingCharacters(in: .whitespacesAndNewlines)
+        let verify = linesDictionary[newText + newPass]
         if verify != nil {
-            // lookup in iClould
+            cloudDB.share.returnStationsOnLine(line2Seek: newText)
+            result = true
+        } else {
+            passText.textColor = UIColor.red
+            UIView.animate(withDuration: 0.75, delay: 0.25, options: [.curveEaseOut], animations: {
+                self.passText.alpha = 0.0
+            }) { (status) in
+                self.passText.text = ""
+                self.passText.alpha = 1.0
+                self.passText.textColor = UIColor.black
+            }
         }
+        return result
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -151,15 +176,33 @@ class ConfigViewController: UIViewController, UITableViewDelegate, UITableViewDa
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     var stationsRegistered:[String] = ["good","bad","ugly"]
     
+    private func deleteLine() {
+        let alert = UIAlertController(title: "", message: "Delete Line Item", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Delete", style: .default, handler: { (updateAction) in
+            cloudDB.share.deleteLine(lineName:self.newText,linePassword: self.newPass)
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        self.present(alert, animated: false)
+        
+    }
+    
+    
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         stationsTable.rowHeight = 32
         lineText.delegate = self
         passText.delegate = self
         // Do any additional setup after loading the view.
+//        let swipeLeft = UISwipeGestureRecognizer(target: lineText, action: #selector(ConfigViewController.deleteLine))
+//        swipeLeft.direction = .left
+//
+//        self.view.addGestureRecognizer(swipeLeft)
     }
     
     private var pinObserver: NSObjectProtocol!
+    private var pinObserver2: NSObjectProtocol!
     
     override func viewDidAppear(_ animated: Bool) {
         let center = NotificationCenter.default
@@ -167,6 +210,11 @@ class ConfigViewController: UIViewController, UITableViewDelegate, UITableViewDa
         let alert2Monitor = "confirmPin"
         let pinObserver = center.addObserver(forName: NSNotification.Name(rawValue: alert2Monitor), object: nil, queue: queue) { (notification) in
             self.confirmRegistration()
+        }
+        let alert2Monitor2 = "stationPin"
+        pinObserver2 = center.addObserver(forName: NSNotification.Name(rawValue: alert2Monitor2), object: nil, queue: queue) { (notification) in
+            self.stationsRegistered = stationsRead
+            self.stationsTable.reloadData()
         }
 //        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
 //        tap.numberOfTapsRequired = 2
@@ -179,6 +227,15 @@ class ConfigViewController: UIViewController, UITableViewDelegate, UITableViewDa
         if pinObserver != nil {
             center.removeObserver(pinObserver)
         }
+        if pinObserver2 != nil {
+            center.removeObserver(pinObserver2)
+        }
+//        if pinObserver3 != nil {
+//            center.removeObserver(pinObserver2)
+//        }
+//        if pinObserver4 != nil {
+//            center.removeObserver(pinObserver2)
+//        }
     }
     
     

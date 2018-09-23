@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CloudKit
 
 enum segueNames {
     static let posting = "posting"
@@ -47,4 +48,4 @@ var stationsGood2Go: Bool = false {
     }
 }
 
-var linesDictionary:[String:String] = [:]
+var linesDictionary:[String:CKRecordID] = [:]

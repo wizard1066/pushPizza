@@ -240,6 +240,12 @@ class ViewController: UIViewController, SFSafariViewControllerDelegate, UITextFi
         if pinObserver2 != nil {
             center.removeObserver(pinObserver2)
         }
+//        if pinObserver3 != nil {
+//            center.removeObserver(pinObserver2)
+//        }
+//        if pinObserver4 != nil {
+//            center.removeObserver(pinObserver2)
+//        }
     }
 
     override func didReceiveMemoryWarning() {

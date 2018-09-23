@@ -68,7 +68,14 @@ var sharedDB: CKDatabase!
     }
     
     public func deleteLine(lineName: String, linePassword: String) {
-        
+        let recordID2Access = linesDictionary[lineName + linePassword]
+        cloudDB.share.publicDB.delete(withRecordID: recordID2Access!) { (recordID, error) in
+            guard let recordID = recordID else {
+                print(error!.localizedDescription)
+                return
+            }
+            print("Record \(recordID) was successfully deleted")
+        }
     }
     
     public func modifyStations(lineName: String, stationName: String) {
@@ -124,7 +131,7 @@ var sharedDB: CKDatabase!
             } else {
                 for record in records! {
                     linesRead.append(record[remoteAttributes.lineName]!)
-                    linesDictionary[remoteAttributes.lineName] = record[remoteAttributes.linePassword]
+                    linesDictionary[record[remoteAttributes.lineName]! + record[remoteAttributes.linePassword]!] = record.recordID
                 }
                 linesGood2Go = !linesGood2Go
                 print("linesRead read \(linesRead)")
@@ -145,7 +152,8 @@ var sharedDB: CKDatabase!
                     //                        let stationsFound = records!.first![remoteAttributes.stationNames]! as? [String]
                     if (stationsFound as? [String])!.count > 0 {
                         stationsRead = (stationsFound as? [String])!
-                        stationsGood2Go = !stationsGood2Go
+                        let peru = Notification.Name("stationPin")
+                        NotificationCenter.default.post(name: peru, object: nil, userInfo: nil)
                     }
                     self.returnTokenWithID(record: records!.first!.object(forKey: remoteAttributes.lineOwner) as? CKReference)
                 }
