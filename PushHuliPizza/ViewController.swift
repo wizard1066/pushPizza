@@ -8,6 +8,7 @@
 
 import UIKit
 import SafariServices
+import CloudKit
 
 class ViewController: UIViewController, SFSafariViewControllerDelegate, UITextFieldDelegate, URLSessionDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
 
@@ -199,6 +200,8 @@ class ViewController: UIViewController, SFSafariViewControllerDelegate, UITextFi
         pinObserver2 = center.addObserver(forName: NSNotification.Name(rawValue: alert2Monitor4), object: nil, queue: queue) { (notification) in
             self.postingButton.isEnabled = false
         }
+        
+        
         let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(ViewController.showPosting))
         swipeLeft.direction = .left
         let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(ViewController.showConfig))
@@ -266,7 +269,10 @@ class ViewController: UIViewController, SFSafariViewControllerDelegate, UITextFi
             print("config")
         }
     }
+    
+
 }
+
 
 
 

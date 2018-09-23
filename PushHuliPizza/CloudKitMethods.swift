@@ -8,8 +8,9 @@
 
 import Foundation
 import CloudKit
+import UIKit
 
-class cloudDB {
+class cloudDB: NSObject {
     
 static let share = cloudDB()
 
@@ -17,30 +18,73 @@ var publicDB:CKDatabase!
 var privateDB: CKDatabase!
 var sharedDB: CKDatabase!
 
-    private init() {
+    private override init() {
         let container = CKContainer.default()
         publicDB = container.publicCloudDatabase
         privateDB = container.privateCloudDatabase
         sharedDB = container.sharedCloudDatabase
     }
     
-    public func createLine(lineName: String, stationNames:[String], linePassword:String) {
-        let customZone = CKRecordZone(zoneName: lineName)
-        cloudDB.share.publicDB.save(customZone, completionHandler: ({returnRecord, error in
+    public func saveZone(zone2U: String) {
+        let customZone = CKRecordZone(zoneName: zone2U)
+        
+//        cloudDB.share.privateDB.save(customZone, completionHandler: ({returnRecord, error in
+//            if error != nil {
+//                print("\(error!.localizedDescription)")
+//            } else {
+//                print("customZoneID \(customZone.zoneID)")
+//            }
+//
+//        }))
+        
+        let operation = CKModifyRecordZonesOperation(recordZonesToSave: [customZone], recordZoneIDsToDelete: nil)
+        operation.modifyRecordZonesCompletionBlock = { savedRecords, deletedRecordIDs, error in
             if error != nil {
-//                OperationQueue.main.addOperation {
-////                self.textView.text = "Cloud Error\n\(error.localizedDescription)"
-//                }
+                print("\(error!.localizedDescription)")
+            } else {
+                print("customZoneID \(customZone.zoneID)")
+                self.saveLink(lineName: zone2U, zoneID: customZone.zoneID)
+            }
+        }
+//        cloudDB.share.privateDB.add(operation)
+        CKContainer.default().privateCloudDatabase.add(operation)
+    }
+    
+    public func saveLink(lineName: String, zoneID: CKRecordZoneID) {
+        let customRecord = CKRecord(recordType: remoteRecords.notificationShare, zoneID: zoneID)
+        customRecord[remoteAttributes.lineName] = lineName
+        cloudDB.share.privateDB.save(customRecord, completionHandler: ({returnRecord, error in
+            if error != nil {
                 print("saveLine error \(error)")
             } else {
-                
-//                OperationQueue.main.addOperation {
-////                self.textView.text = "The 'FriendsZone' was successfully created in the private database."
-//                }
+                self.shareLink(rRecord: customRecord, cZone: zoneID)
             }
         }))
-
     }
+    
+    public func shareLink(rRecord: CKRecord, cZone: CKRecordZoneID) {
+        controller = UICloudSharingController {
+            controller, preparationCompletionHandler in
+            
+            let share = CKShare(rootRecord: rRecord)
+            let saveOperation = CKModifyRecordsOperation(recordsToSave: [rRecord, share], recordIDsToDelete: nil)
+            saveOperation.modifyRecordsCompletionBlock = {
+                records, recordIds, error in
+                
+                preparationCompletionHandler(share, CKContainer.default(), error)
+                
+            }
+            CKContainer.default().privateCloudDatabase.add(saveOperation)
+            
+        }
+        
+        controller.availablePermissions = [.allowPublic, .allowReadOnly]
+        let peru = Notification.Name("sharePin")
+        NotificationCenter.default.post(name: peru, object: nil, userInfo: nil)
+        
+    }
+    
+
     
     public func saveLine(lineName: String, stationNames:[String], linePassword:String) {
         let customRecord = CKRecord(recordType: remoteRecords.notificationLine)
@@ -60,9 +104,10 @@ var sharedDB: CKDatabase!
                 defaults.set(stationNames, forKey: remoteAttributes.stationNames)
                 linesRead.append(lineName)
                 linesGood2Go = !linesGood2Go
-                let peru = Notification.Name("confirmPin")
-                NotificationCenter.default.post(name: peru, object: nil, userInfo: nil)
+//                let peru = Notification.Name("confirmPin")
+//                NotificationCenter.default.post(name: peru, object: nil, userInfo: nil)
                 print("didSet")
+                self.saveZone(zone2U: lineName)
             }
         }))
     }

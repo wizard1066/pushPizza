@@ -3,7 +3,7 @@
 //  PushHuliPizza
 //
 //  Created by localadmin on 20.09.18.
-//  Copyright © 2018 Steven Lipton. All rights reserved.
+
 //
 
 import UIKit
@@ -215,6 +215,11 @@ class ConfigViewController: UIViewController, UITableViewDelegate, UITableViewDa
         pinObserver2 = center.addObserver(forName: NSNotification.Name(rawValue: alert2Monitor2), object: nil, queue: queue) { (notification) in
             self.stationsRegistered = stationsRead
             self.stationsTable.reloadData()
+        }
+        let alert2Monitor5 = "sharePin"
+        pinObserver2 = center.addObserver(forName: NSNotification.Name(rawValue: alert2Monitor5), object: nil, queue: queue) { (notification) in
+            
+            self.present(controller, animated: true)
         }
 //        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
 //        tap.numberOfTapsRequired = 2

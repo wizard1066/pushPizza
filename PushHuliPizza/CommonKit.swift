@@ -8,6 +8,7 @@
 
 import Foundation
 import CloudKit
+import UIKit
 
 enum segueNames {
     static let posting = "posting"
@@ -18,6 +19,8 @@ enum segueNames {
 enum remoteRecords {
     static let notificationLine = "notificationLine"
     static let devicesLogged = "devicesLogged"
+    static let notificationShare = "notificationShare"
+    static let notificationMedia = "notificationMedia"
 }
 
 enum remoteAttributes {
@@ -27,6 +30,7 @@ enum remoteAttributes {
     static let lineOwner = "lineOwner"
 //    static let tokenReference = "tokenreference"
     static let deviceRegistered = "deviceRegistered"
+    static let mediaFile = "mediaFile"
 }
 
 var ownerToken: String!
@@ -49,3 +53,4 @@ var stationsGood2Go: Bool = false {
 }
 
 var linesDictionary:[String:CKRecordID] = [:]
+var controller:UICloudSharingController!
