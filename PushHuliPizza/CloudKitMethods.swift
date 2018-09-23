@@ -44,9 +44,11 @@ var sharedDB: CKDatabase!
     
     public func saveLine(lineName: String, stationNames:[String], linePassword:String) {
         let customRecord = CKRecord(recordType: remoteRecords.notificationLine)
+        
         customRecord[remoteAttributes.lineName] = lineName
         customRecord[remoteAttributes.linePassword] = linePassword
         customRecord[remoteAttributes.stationNames] = stationNames
+        customRecord[remoteAttributes.lineOwner] = tokenReference
         cloudDB.share.publicDB.save(customRecord, completionHandler: ({returnRecord, error in
             if error != nil {
                 
@@ -78,6 +80,8 @@ var sharedDB: CKDatabase!
         return linesRead
     }
     
+    var tokenReference: CKReference!
+    
     public func saveToken(token2Save: String) {
         
         let customRecord = CKRecord(recordType: remoteRecords.devicesLogged)
@@ -87,8 +91,7 @@ var sharedDB: CKDatabase!
                 
                 print("saveLine error \(error)")
             } else {
-                
-                
+                let tokenReference = CKReference(record: customRecord, action: CKReferenceAction.none)
             }
         }))
     }
@@ -121,9 +124,10 @@ var sharedDB: CKDatabase!
             } else {
                 for record in records! {
                     linesRead.append(record[remoteAttributes.lineName]!)
+                    linesDictionary[remoteAttributes.lineName] = record[remoteAttributes.linePassword]
                 }
                 linesGood2Go = !linesGood2Go
-                print("tokens read \(tokensRead)")
+                print("linesRead read \(linesRead)")
             }
         }
     }
@@ -132,14 +136,37 @@ var sharedDB: CKDatabase!
         let predicate = NSPredicate(format: remoteAttributes.lineName + " = %@", line2Seek)
         let query = CKQuery(recordType: remoteRecords.notificationLine, predicate: predicate)
         cloudDB.share.publicDB.perform(query, inZoneWith: nil) { (records, error) in
-        if error != nil {
-        print(error!.localizedDescription)
-        } else {
-            if records!.count > 0 {
-                stationsRead = records!.first![remoteAttributes.stationNames]!
-                stationsGood2Go = !stationsGood2Go
+            if error != nil {
+                print(error!.localizedDescription)
+            } else {
+                if records!.count > 0 {
+                    let stationsFound = records!.first!.object(forKey: remoteAttributes.stationNames)
+                    //                    syntax that crashes !!
+                    //                        let stationsFound = records!.first![remoteAttributes.stationNames]! as? [String]
+                    if (stationsFound as? [String])!.count > 0 {
+                        stationsRead = (stationsFound as? [String])!
+                        stationsGood2Go = !stationsGood2Go
+                    }
+                    self.returnTokenWithID(record: records!.first!.object(forKey: remoteAttributes.lineOwner) as? CKReference)
+                }
             }
-            
+        }
+    }
+    
+    public func returnTokenWithID(record: CKReference?) {
+        cloudDB.share.publicDB.fetch(withRecordID: (record?.recordID)!) { (record, error) in
+            if error != nil {
+                print(error!.localizedDescription)
+            } else {
+                let tokenDiscovered = record!.object(forKey: remoteAttributes.deviceRegistered) as? String
+                if ownerToken == tokenDiscovered {
+                    let peru = Notification.Name("enablePost")
+                    NotificationCenter.default.post(name: peru, object: nil, userInfo: nil)
+                } else {
+                    let peru = Notification.Name("disablePost")
+                    NotificationCenter.default.post(name: peru, object: nil, userInfo: nil)
+                }
+                
             }
         }
     }

@@ -77,8 +77,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         print("Successful registration. Token is:")
         print(tokenString(deviceToken))
-//        cloudDB.share.saveToken(token2Save:tokenString(deviceToken))
-        cloudDB.share.updateToken(token2Save: tokenString(deviceToken))
+        ownerToken = tokenString(deviceToken)
+        cloudDB.share.updateToken(token2Save: ownerToken)
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {

@@ -95,6 +95,7 @@ class ViewController: UIViewController, SFSafariViewControllerDelegate, UITextFi
 //        stationsRegistered = (defaults.array(forKey: remoteRecords.stationNames) as? [String])!
         
         cloudDB.share.returnAllLines()
+        postingButton.isEnabled = false
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -189,6 +190,14 @@ class ViewController: UIViewController, SFSafariViewControllerDelegate, UITextFi
                 self.stationsPicker.selectRow(0, inComponent: 0, animated: true)
                 self.stationsPicker.reloadAllComponents()
             }
+        }
+        let alert2Monitor3 = "enablePost"
+        pinObserver2 = center.addObserver(forName: NSNotification.Name(rawValue: alert2Monitor3), object: nil, queue: queue) { (notification) in
+            self.postingButton.isEnabled = true
+        }
+        let alert2Monitor4 = "disablePost"
+        pinObserver2 = center.addObserver(forName: NSNotification.Name(rawValue: alert2Monitor4), object: nil, queue: queue) { (notification) in
+            self.postingButton.isEnabled = false
         }
         let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(ViewController.showPosting))
         swipeLeft.direction = .left

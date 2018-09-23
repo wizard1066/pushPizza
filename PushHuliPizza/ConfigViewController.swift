@@ -8,7 +8,58 @@
 
 import UIKit
 
-class ConfigViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class ConfigViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
+    
+
+
+    @IBOutlet weak var registerButton: UIButton!
+    
+    @IBOutlet weak var stationsTable: UITableView!
+    @IBOutlet weak var shareButton: UIButton!
+    @IBOutlet weak var messagesLabel: UILabel!
+    @IBOutlet weak var creditsLabel: UILabel!
+    @IBOutlet weak var returnButton: UIButton!
+    @IBOutlet weak var lineText: UITextField!
+    @IBOutlet weak var passText: UITextField!
+    
+    @IBAction func returnAction(_ sender: UIButton) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    @IBAction func registerButton(_ sender: UIButton) {
+//        cloudDB.share.saveLine(lineName: lineText.text!, stationNames: stationsRegistered, linePassword: passText.text!)
+        cloudDB.share.updateLine(lineName: lineText.text!, stationNames: stationsRegistered, linePassword: passText.text!)
+    }
+    
+    func confirmRegistration() {
+        let alert = UIAlertController(title: "Line registered", message: "Your new line is registered", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+        self.present(alert, animated: true)
+    }
+    
+    // MARK: textfield delegate
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        print("lines read \(linesRead)")
+        if textField.placeholder == "Password", lineText.text != "" {
+            // no lineName do nothing
+            return
+        }
+        if textField.placeholder == "Line", passText.text != "" {
+            // do password do nothing
+            return
+        }
+        let verify = linesDictionary[lineText.text!]
+        if verify != nil {
+            // lookup in iClould
+        }
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        return true
+    }
+    
+    // MARK: tableView methods
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return stationsRegistered.count
@@ -50,18 +101,18 @@ class ConfigViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-            let alert = UIAlertController(title: "", message: "Edit list item", preferredStyle: .alert)
-            alert.addTextField(configurationHandler: { (textField) in
-                textField.text = self.stationsTable.cellForRow(at: indexPath)?.textLabel?.text
-            })
-            alert.addAction(UIAlertAction(title: "Update", style: .default, handler: { (updateAction) in
-                self.stationsTable.cellForRow(at: indexPath)?.textLabel?.text = alert.textFields!.first!.text!
-                self.stationsRegistered[indexPath.row] = alert.textFields!.first!.text!
-                self.stationsTable.reloadRows(at: [indexPath], with: .fade)
-            }))
-            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-            self.present(alert, animated: false)
-      
+        let alert = UIAlertController(title: "", message: "Edit list item", preferredStyle: .alert)
+        alert.addTextField(configurationHandler: { (textField) in
+            textField.text = self.stationsTable.cellForRow(at: indexPath)?.textLabel?.text
+        })
+        alert.addAction(UIAlertAction(title: "Update", style: .default, handler: { (updateAction) in
+            self.stationsTable.cellForRow(at: indexPath)?.textLabel?.text = alert.textFields!.first!.text!
+            self.stationsRegistered[indexPath.row] = alert.textFields!.first!.text!
+            self.stationsTable.reloadRows(at: [indexPath], with: .fade)
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        self.present(alert, animated: false)
+        
     }
     
     @available(iOS 11.0, *)
@@ -94,31 +145,8 @@ class ConfigViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         return UISwipeActionsConfiguration(actions: [modifyAction])
     }
-
-    @IBOutlet weak var registerButton: UIButton!
     
-    @IBOutlet weak var stationsTable: UITableView!
-    @IBOutlet weak var shareButton: UIButton!
-    @IBOutlet weak var messagesLabel: UILabel!
-    @IBOutlet weak var creditsLabel: UILabel!
-    @IBOutlet weak var returnButton: UIButton!
-    @IBOutlet weak var lineText: UITextField!
-    @IBOutlet weak var passText: UITextField!
-    
-    @IBAction func returnAction(_ sender: UIButton) {
-        dismiss(animated: true, completion: nil)
-    }
-    
-    @IBAction func registerButton(_ sender: UIButton) {
-//        cloudDB.share.saveLine(lineName: lineText.text!, stationNames: stationsRegistered, linePassword: passText.text!)
-        cloudDB.share.updateLine(lineName: lineText.text!, stationNames: stationsRegistered, linePassword: passText.text!)
-    }
-    
-    func confirmRegistration() {
-        let alert = UIAlertController(title: "Line registered", message: "Your new line is registered", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-        self.present(alert, animated: true)
-    }
+    // MARK: View methods
     
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     var stationsRegistered:[String] = ["good","bad","ugly"]
@@ -126,6 +154,8 @@ class ConfigViewController: UIViewController, UITableViewDelegate, UITableViewDa
     override func viewDidLoad() {
         super.viewDidLoad()
         stationsTable.rowHeight = 32
+        lineText.delegate = self
+        passText.delegate = self
         // Do any additional setup after loading the view.
     }
     
