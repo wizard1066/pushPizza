@@ -8,6 +8,7 @@
 
 import UIKit
 import UserNotifications
+import CloudKit
 
 struct ColorSet {
     var colors = Set<String>()
@@ -72,6 +73,54 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             content.body = body
         }
         return content
+    }
+    
+    func application(_ application: UIApplication, userDidAcceptCloudKitShareWith cloudKitShareMetadata: CKShareMetadata) {
+        
+        let acceptSharing: CKAcceptSharesOperation = CKAcceptSharesOperation(shareMetadatas: [cloudKitShareMetadata])
+        
+        acceptSharing.qualityOfService = .userInteractive
+        acceptSharing.perShareCompletionBlock = {meta, share, error in
+            print("successfully shared")
+        }
+        acceptSharing.acceptSharesCompletionBlock = {
+            error in
+            guard (error == nil) else{
+                print("Error \(error?.localizedDescription ?? "")")
+                return
+            }
+            
+//            let viewController: AddItemViewController =
+//                self.window?.rootViewController as! AddItemViewController
+            self.fetchShare(cloudKitShareMetadata)
+            
+        }
+        CKContainer(identifier: cloudKitShareMetadata.containerIdentifier).add(acceptSharing)
+    }
+    
+    var item: CKRecord!
+    
+    func fetchShare(_ cloudKitShareMetadata: CKShareMetadata){
+        let op = CKFetchRecordsOperation(
+            recordIDs: [cloudKitShareMetadata.rootRecordID])
+        
+        op.perRecordCompletionBlock = { record, _, error in
+            guard error == nil, record != nil else{
+                print("error \(error?.localizedDescription ?? "")")
+                return
+            }
+            DispatchQueue.main.async {
+                self.item = record
+            }
+        }
+        op.fetchRecordsCompletionBlock = { _, error in
+            guard error != nil else{
+                print("error \(error?.localizedDescription ?? "")")
+                return
+            }
+            print("record \(self.item)")
+        }
+        CKContainer.default().sharedCloudDatabase.add(op)
     }
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {

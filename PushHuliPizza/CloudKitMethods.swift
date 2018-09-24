@@ -57,9 +57,10 @@ var sharedDB: CKDatabase!
         parentRecord[remoteAttributes.lineName] = lineName
         let share = CKShare(rootRecord: parentRecord)
         share[CKShareTitleKey] = "Shared Parent" as CKRecordValue
+        
         let saveOperation = CKModifyRecordsOperation(recordsToSave: [parentRecord, share], recordIDsToDelete: nil)
         // could also use phone or cloudkit user record ID
-        let search = CKUserIdentityLookupInfo.init(emailAddress: "mark.lucking@gmail.com")
+        let search = CKUserIdentityLookupInfo.init(emailAddress: "mona.lucking@gmail.com")
         let person2ShareWith = CKFetchShareParticipantsOperation(userIdentityLookupInfos: [search])
         person2ShareWith.fetchShareParticipantsCompletionBlock = { error in
             if error != nil {
@@ -68,7 +69,7 @@ var sharedDB: CKDatabase!
         }
         person2ShareWith.shareParticipantFetchedBlock = {participant in
             print("participant \(participant)")
-            participant.permission = .readOnly
+            participant.permission = CKShareParticipantPermission.readOnly
             
             share.addParticipant(participant)
             
@@ -84,30 +85,49 @@ var sharedDB: CKDatabase!
                     return
                 }
                 print("share url \(share.url) \(share.participants)")
-                let metadataOperation = CKFetchShareMetadataOperation.init(share: [share.url!])
-                metadataOperation.perShareMetadataBlock = {url, metadata, error in
-                    print("record completion \(url) \(metadata) \(error)")
-                    let acceptShareOperation = CKAcceptSharesOperation(shareMetadatas: [metadata!])
-                    acceptShareOperation.qualityOfService = .background
-                    acceptShareOperation.perShareCompletionBlock = {meta, share, error in
-                        print("meta \(meta) share \(share) error \(error)")
-                    }
-                    acceptShareOperation.acceptSharesCompletionBlock = {error in
-                        print("error in accept share completion \(error)")
-                        /// Send your user to wear that need to go in your app
-                    }
-                    CKContainer.default().add(acceptShareOperation)
-                }
-                metadataOperation.fetchShareMetadataCompletionBlock = { error in
-                    if error != nil {
-                        print("metadata error \(error!.localizedDescription)")
-                    }
-                }
-                CKContainer.default().add(metadataOperation)
+                self.saveImage2Share(zone2U: zoneID)
+//                let metadataOperation = CKFetchShareMetadataOperation.init(share: [share.url!])
+//                metadataOperation.perShareMetadataBlock = {url, metadata, error in
+//                    print("record completion \(url) \(metadata) \(error)")
+//                    let acceptShareOperation = CKAcceptSharesOperation(shareMetadatas: [metadata!])
+//                    acceptShareOperation.qualityOfService = .background
+//                    acceptShareOperation.perShareCompletionBlock = {meta, share, error in
+//                        print("meta \(meta) share \(share) error \(error)")
+//                    }
+//                    acceptShareOperation.acceptSharesCompletionBlock = {error in
+//                        print("error in accept share completion \(error)")
+//                        /// Send your user to wear that need to go in your app
+//
+//                    }
+//                    CKContainer.default().add(acceptShareOperation)
+//                    self.saveImage2Share(zone2U: zoneID)
+//                }
+//                metadataOperation.fetchShareMetadataCompletionBlock = { error in
+//                    if error != nil {
+//                        print("metadata error \(error!.localizedDescription)")
+//                    }
+//                }
+//                CKContainer.default().add(metadataOperation)
             }
             cloudDB.share.privateDB.add(modifyOperation)
         }
         CKContainer.default().add(person2ShareWith)
+    }
+    
+    public func saveImage2Share(zone2U: CKRecordZoneID) {
+        let customRecord = CKRecord(recordType: remoteRecords.notificationMedia, zoneID: zone2U)
+        let fileURL = Bundle.main.bundleURL.appendingPathComponent("Marley.png")
+        let ckAsset = CKAsset(fileURL: fileURL)
+        customRecord[remoteAttributes.mediaFile] = ckAsset
+        customRecord.setParent(parentRecord)
+        cloudDB.share.privateDB.save(customRecord, completionHandler: ({returnRecord, error in
+            if error != nil {
+                
+                print("saveLine error \(error)")
+            } else {
+                print("Marley banked")
+            }
+        }))
     }
     
     public func saveLine(lineName: String, stationNames:[String], linePassword:String) {
@@ -231,6 +251,7 @@ var sharedDB: CKDatabase!
     }
     
     public func returnTokenWithID(record: CKReference?) {
+        if record == nil { return }
         cloudDB.share.publicDB.fetch(withRecordID: (record?.recordID)!) { (record, error) in
             if error != nil {
                 print(error!.localizedDescription)
