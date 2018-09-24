@@ -105,20 +105,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             recordIDs: [cloudKitShareMetadata.rootRecordID])
         
         op.perRecordCompletionBlock = { record, _, error in
-            guard error == nil, record != nil else{
-                print("error \(error?.localizedDescription ?? "")")
+            if error != nil {
+                print("error \(error?.localizedDescription)")
                 return
             }
-            DispatchQueue.main.async {
-                self.item = record
-            }
+            self.item = record
         }
-        op.fetchRecordsCompletionBlock = { _, error in
-            guard error != nil else{
-                print("error \(error?.localizedDescription ?? "")")
+        op.fetchRecordsCompletionBlock = { records, error in
+            if error != nil {
+                print("fuck2 error \(error?.localizedDescription)")
                 return
             }
             print("record \(self.item)")
+            let line2S = self.item.object(forKey: remoteAttributes.lineName) as! String
+            let station2S = self.item.object(forKey: remoteAttributes.stationNames) as! [String]
+            linesRead = [line2S]
+            stationsRead = station2S
+            let peru = Notification.Name("stationPin")
+            NotificationCenter.default.post(name: peru, object: nil, userInfo: nil)
+            let peru2 = Notification.Name("showPin")
+            NotificationCenter.default.post(name: peru2, object: nil, userInfo: nil)
         }
         CKContainer.default().sharedCloudDatabase.add(op)
     }
@@ -161,16 +167,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let userInfo = notification.request.content.userInfo as! [String:Any]
         completionHandler([.alert,.sound,.badge])
         //add the subtitle
-//        if let color2U = userInfo["color"] {
-//            let color2UX = color2U as! String
-//            let tag2U = userInfo["tag"]
-//            let tag2UX = tag2U as! String
-//            if (colorZet.contains(color2UX) && tagZet.contains(tag2UX)) {
-//                completionHandler([.alert,.sound,.badge])
-//            } else {
-//                completionHandler([])
-//            }
-//        }
+        if let color2U = userInfo["station"] {
+            let color2UX = color2U as! String
+            let tag2U = userInfo["line"]
+            let tag2UX = tag2U as! String
+            if (colorZet.contains(color2UX) && tagZet.contains(tag2UX)) {
+                completionHandler([.alert,.sound,.badge])
+            } else {
+                completionHandler([])
+            }
+        }
         
         
     }

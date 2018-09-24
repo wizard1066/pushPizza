@@ -14,6 +14,7 @@ class PostingViewController: UIViewController, URLSessionDelegate, UIDocumentPic
 //    var stationsRegistered:[String] = ["English","French","Italian","German"]
     
     var bahninfo: String!
+    var hofString: String!
     var hofinfo: Int!
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -165,6 +166,7 @@ class PostingViewController: UIViewController, URLSessionDelegate, UIDocumentPic
             if hofinfo != nil {
                 self.pickerStations.selectRow(hofinfo, inComponent: 0, animated: true)
                 rowSelected = hofinfo
+                hofString = stationsRead[hofinfo]
             }
         }
         clientLabel.text = "\(tokensRead.count)"
@@ -222,7 +224,7 @@ class PostingViewController: UIViewController, URLSessionDelegate, UIDocumentPic
     @objc func updateCounting(){
         let apnsSubSub = ["title":titleTextField.text,"body":bodyText.text]
         let apnsSub = ["alert":apnsSubSub]
-        let apnsPayload = ["aps":apnsSub]
+        let apnsPayload = ["aps":apnsSub,"line":bahninfo,"station":hofString] as [String : Any]
         if devices2Post2.count > 0 {
             buildPost(token2U: devices2Post2.removeLast(), apns2S: apnsPayload)
             clientLabel.text = "\(postsMade)"

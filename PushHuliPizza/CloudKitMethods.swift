@@ -55,6 +55,7 @@ var sharedDB: CKDatabase!
     public func saveShare(lineName: String, zoneID: CKRecordZoneID) {
         parentRecord = CKRecord(recordType: remoteRecords.notificationShare, zoneID: zoneID)
         parentRecord[remoteAttributes.lineName] = lineName
+        parentRecord[remoteAttributes.stationNames] = ["default"]
         let share = CKShare(rootRecord: parentRecord)
         share[CKShareTitleKey] = "Shared Parent" as CKRecordValue
         

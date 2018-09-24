@@ -174,7 +174,7 @@ class ConfigViewController: UIViewController, UITableViewDelegate, UITableViewDa
     // MARK: View methods
     
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
-    var stationsRegistered:[String] = ["good","bad","ugly"]
+    var stationsRegistered:[String] = ["default"]
     
     private func deleteLine() {
         let alert = UIAlertController(title: "", message: "Delete Line Item", preferredStyle: .alert)

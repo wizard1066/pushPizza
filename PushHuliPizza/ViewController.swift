@@ -173,6 +173,9 @@ class ViewController: UIViewController, SFSafariViewControllerDelegate, UITextFi
     
     private var pinObserver: NSObjectProtocol!
     private var pinObserver2: NSObjectProtocol!
+    private var pinObserver3: NSObjectProtocol!
+    private var pinObserver4: NSObjectProtocol!
+    
     
     override func viewDidAppear(_ animated: Bool) {
 //        doAnimation()
@@ -193,11 +196,11 @@ class ViewController: UIViewController, SFSafariViewControllerDelegate, UITextFi
             }
         }
         let alert2Monitor3 = "enablePost"
-        pinObserver2 = center.addObserver(forName: NSNotification.Name(rawValue: alert2Monitor3), object: nil, queue: queue) { (notification) in
+        pinObserver3 = center.addObserver(forName: NSNotification.Name(rawValue: alert2Monitor3), object: nil, queue: queue) { (notification) in
             self.postingButton.isEnabled = true
         }
         let alert2Monitor4 = "disablePost"
-        pinObserver2 = center.addObserver(forName: NSNotification.Name(rawValue: alert2Monitor4), object: nil, queue: queue) { (notification) in
+        pinObserver4 = center.addObserver(forName: NSNotification.Name(rawValue: alert2Monitor4), object: nil, queue: queue) { (notification) in
             // fix bug later
             self.postingButton.isEnabled = false
         }
