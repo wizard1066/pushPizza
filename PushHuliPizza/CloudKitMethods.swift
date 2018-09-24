@@ -50,13 +50,16 @@ var sharedDB: CKDatabase!
         CKContainer.default().privateCloudDatabase.add(operation)
     }
     
+    var parentRecord: CKRecord!
+    
     public func saveShare(lineName: String, zoneID: CKRecordZoneID) {
-        let customRecord = CKRecord(recordType: remoteRecords.notificationShare, zoneID: zoneID)
-        customRecord[remoteAttributes.lineName] = lineName
-        let share = CKShare(rootRecord: customRecord)
+        parentRecord = CKRecord(recordType: remoteRecords.notificationShare, zoneID: zoneID)
+        parentRecord[remoteAttributes.lineName] = lineName
+        let share = CKShare(rootRecord: parentRecord)
         share[CKShareTitleKey] = "Shared Parent" as CKRecordValue
-        let saveOperation = CKModifyRecordsOperation(recordsToSave: [customRecord, share], recordIDsToDelete: nil)
-        let search = CKUserIdentityLookupInfo.init(emailAddress: "mona.lucking@gmail.com")
+        let saveOperation = CKModifyRecordsOperation(recordsToSave: [parentRecord, share], recordIDsToDelete: nil)
+        // could also use phone or cloudkit user record ID
+        let search = CKUserIdentityLookupInfo.init(emailAddress: "mark.lucking@gmail.com")
         let person2ShareWith = CKFetchShareParticipantsOperation(userIdentityLookupInfos: [search])
         person2ShareWith.fetchShareParticipantsCompletionBlock = { error in
             if error != nil {
@@ -66,9 +69,10 @@ var sharedDB: CKDatabase!
         person2ShareWith.shareParticipantFetchedBlock = {participant in
             print("participant \(participant)")
             participant.permission = .readOnly
+            
             share.addParticipant(participant)
             
-            let modifyOperation: CKModifyRecordsOperation = CKModifyRecordsOperation(recordsToSave: [customRecord, share], recordIDsToDelete: nil)
+            let modifyOperation: CKModifyRecordsOperation = CKModifyRecordsOperation(recordsToSave: [self.parentRecord, share], recordIDsToDelete: nil)
             
             modifyOperation.savePolicy = .ifServerRecordUnchanged
             modifyOperation.perRecordCompletionBlock = {record, error in
@@ -80,47 +84,31 @@ var sharedDB: CKDatabase!
                     return
                 }
                 print("share url \(share.url) \(share.participants)")
+                let metadataOperation = CKFetchShareMetadataOperation.init(share: [share.url!])
+                metadataOperation.perShareMetadataBlock = {url, metadata, error in
+                    print("record completion \(url) \(metadata) \(error)")
+                    let acceptShareOperation = CKAcceptSharesOperation(shareMetadatas: [metadata!])
+                    acceptShareOperation.qualityOfService = .background
+                    acceptShareOperation.perShareCompletionBlock = {meta, share, error in
+                        print("meta \(meta) share \(share) error \(error)")
+                    }
+                    acceptShareOperation.acceptSharesCompletionBlock = {error in
+                        print("error in accept share completion \(error)")
+                        /// Send your user to wear that need to go in your app
+                    }
+                    CKContainer.default().add(acceptShareOperation)
+                }
+                metadataOperation.fetchShareMetadataCompletionBlock = { error in
+                    if error != nil {
+                        print("metadata error \(error!.localizedDescription)")
+                    }
+                }
+                CKContainer.default().add(metadataOperation)
             }
             cloudDB.share.privateDB.add(modifyOperation)
-            
         }
         CKContainer.default().add(person2ShareWith)
-        
-        
-//        CKFetchShareMetadataOperation
-//        CKAcceptSharesOperation
-        
-        
-//        saveOperation.modifyRecordsCompletionBlock = {
-//            records, recordIds, error in
-//            // do nothing
-//        }
-//        CKContainer.default().privateCloudDatabase.add(saveOperation)
     }
-    
-    public func shareLink(rRecord: CKRecord, cZone: CKRecordZoneID) {
-        controller = UICloudSharingController {
-            controller, preparationCompletionHandler in
-            
-            let share = CKShare(rootRecord: rRecord)
-            let saveOperation = CKModifyRecordsOperation(recordsToSave: [rRecord, share], recordIDsToDelete: nil)
-            saveOperation.modifyRecordsCompletionBlock = {
-                records, recordIds, error in
-                
-                preparationCompletionHandler(share, CKContainer.default(), error)
-                
-            }
-            CKContainer.default().privateCloudDatabase.add(saveOperation)
-            
-        }
-        
-        controller.availablePermissions = [.allowPublic, .allowReadOnly]
-        let peru = Notification.Name("sharePin")
-        NotificationCenter.default.post(name: peru, object: nil, userInfo: nil)
-        
-    }
-    
-
     
     public func saveLine(lineName: String, stationNames:[String], linePassword:String) {
         let customRecord = CKRecord(recordType: remoteRecords.notificationLine)
