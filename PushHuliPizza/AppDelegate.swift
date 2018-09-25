@@ -138,6 +138,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         ownerToken = tokenString(deviceToken)
         // fuck
         cloudDB.share.setToken(token2Set: ownerToken)
+//        let peru = Notification.Name("refresh")
+//        NotificationCenter.default.post(name: peru, object: nil, userInfo: nil)
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {

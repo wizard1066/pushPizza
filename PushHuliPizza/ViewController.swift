@@ -12,12 +12,14 @@ import CloudKit
 
 class ViewController: UIViewController, SFSafariViewControllerDelegate, UITextFieldDelegate, URLSessionDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
 
-    @IBOutlet weak var pendingPostsButton: UIButton!
+  
+    
+    @IBOutlet weak var stationsPicker: UIPickerView!
     @IBOutlet weak var linesPicker: UIPickerView!
     @IBOutlet weak var postingButton: UIButton!
     @IBOutlet weak var configButton: UIButton!
-    @IBOutlet weak var stationsPicker: UIPickerView!
-    @IBOutlet weak var previousPostsButton: UIButton!
+   
+    
     
 //    var stationsRegistered:[String] = ["English","French","Italian","German"]
     
@@ -97,6 +99,10 @@ class ViewController: UIViewController, SFSafariViewControllerDelegate, UITextFi
         
         cloudDB.share.returnAllLines()
         postingButton.isEnabled = false
+        linesPicker.delegate = self
+        linesPicker.dataSource = self
+        stationsPicker.delegate = self
+        stationsPicker.dataSource = self
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -175,6 +181,7 @@ class ViewController: UIViewController, SFSafariViewControllerDelegate, UITextFi
     private var pinObserver2: NSObjectProtocol!
     private var pinObserver3: NSObjectProtocol!
     private var pinObserver4: NSObjectProtocol!
+    private var pinObserver5: NSObjectProtocol!
     
     
     override func viewDidAppear(_ animated: Bool) {
@@ -184,15 +191,19 @@ class ViewController: UIViewController, SFSafariViewControllerDelegate, UITextFi
         let alert2Monitor = "showPin"
         pinObserver = center.addObserver(forName: NSNotification.Name(rawValue: alert2Monitor), object: nil, queue: queue) { (notification) in
             if self.linesPicker != nil {
+                
                 self.linesPicker.selectRow(0, inComponent: 0, animated: true)
                 self.linesPicker.reloadAllComponents()
+                
             }
         }
         let alert2Monitor2 = "stationPin"
         pinObserver2 = center.addObserver(forName: NSNotification.Name(rawValue: alert2Monitor2), object: nil, queue: queue) { (notification) in
             if self.stationsPicker != nil {
+                
                 self.stationsPicker.selectRow(0, inComponent: 0, animated: true)
                 self.stationsPicker.reloadAllComponents()
+                
             }
         }
         let alert2Monitor3 = "enablePost"
@@ -204,7 +215,11 @@ class ViewController: UIViewController, SFSafariViewControllerDelegate, UITextFi
             // fix bug later
             self.postingButton.isEnabled = false
         }
-        
+        let alert2Monitor5 = "refresh"
+        pinObserver5 = center.addObserver(forName: NSNotification.Name(rawValue: alert2Monitor4), object: nil, queue: queue) { (notification) in
+            self.view.setNeedsLayout()
+            self.view.setNeedsDisplay()
+        }
         
         let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(ViewController.showPosting))
         swipeLeft.direction = .left

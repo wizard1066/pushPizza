@@ -230,7 +230,9 @@
                     </view>
                     <connections>
                         <outlet property="configButton" destination="Ib0-iq-pDk" id="p1R-lS-o5x"/>
+                        <outlet property="linesPicker" destination="yD9-AF-qAk" id="tYo-qd-Y2a"/>
                         <outlet property="postingButton" destination="33e-0w-fSl" id="qH9-8h-eCQ"/>
+                        <outlet property="stationsPicker" destination="TpH-Cb-LWQ" id="Hs0-xE-3yr"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

@@ -47,7 +47,7 @@ var sharedDB: CKDatabase!
         parentRecord[remoteAttributes.stationNames] = ["default"]
         let share = CKShare(rootRecord: parentRecord)
         share[CKShareTitleKey] = "Shared Parent" as CKRecordValue
-        
+        share.publicPermission = .readOnly
         let saveOperation = CKModifyRecordsOperation(recordsToSave: [parentRecord, share], recordIDsToDelete: nil)
         // could also use phone or cloudkit user record ID
         let search = CKUserIdentityLookupInfo.init(emailAddress: "mona.lucking@gmail.com")
@@ -145,6 +145,8 @@ var sharedDB: CKDatabase!
                 NotificationCenter.default.post(name: peru, object: nil, userInfo: nil)
                 print("didSet")
                 self.saveZone(zone2U: lineName)
+                let newReference = CKReference(record: customRecord, action: .none)
+                self.updateTokenWithID(record: self.tokenReference, link2Save: newReference)
             }
         }))
     }
@@ -233,6 +235,8 @@ var sharedDB: CKDatabase!
                 let peru = Notification.Name("showPin")
                 NotificationCenter.default.post(name: peru, object: nil, userInfo: nil)
                 print("linesRead read \(linesRead)")
+                let peru2 = Notification.Name("refresh")
+                NotificationCenter.default.post(name: peru2, object: nil, userInfo: nil)
             }
         }
     }
@@ -255,6 +259,27 @@ var sharedDB: CKDatabase!
                     }
                     self.returnTokenWithID(record: records!.first!.object(forKey: remoteAttributes.lineOwner) as? CKReference)
                 }
+            }
+        }
+    }
+    
+    public func updateTokenWithID(record: CKReference?, link2Save: CKReference) {
+        if record == nil { return }
+        cloudDB.share.publicDB.fetch(withRecordID: (record?.recordID)!) { (returnedRecord, error) in
+            if error != nil {
+                print("updateTokenerror \(error!.localizedDescription)")
+            } else {
+                returnedRecord![remoteAttributes.lineReference] = link2Save
+                let operation = CKModifyRecordsOperation(recordsToSave: [returnedRecord!], recordIDsToDelete: nil)
+                operation.savePolicy = .changedKeys
+                operation.modifyRecordsCompletionBlock = { savedRecords, deletedRecordIDs, error in
+                    if error != nil {
+                        print("modify error\(error!.localizedDescription)")
+                    } else {
+                        print("record Updated \(savedRecords)")
+                    }
+                }
+                CKContainer.default().publicCloudDatabase.add(operation)
             }
         }
     }

@@ -33,6 +33,7 @@ enum remoteAttributes {
     static let mediaFile = "mediaFile"
     static let notificationsregistered = "notificationsregistered"
     static let lineRecordID = "lineRecordID"
+    static let lineReference = "lineReference"
 }
 
 var ownerToken: String!
