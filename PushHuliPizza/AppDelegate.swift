@@ -119,12 +119,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             print("record \(self.item)")
             let line2S = self.item.object(forKey: remoteAttributes.lineName) as! String
             let station2S = self.item.object(forKey: remoteAttributes.stationNames) as! [String]
+            let line2ID = self.item.object(forKey: remoteAttributes.lineRecordID) as! String
             linesRead = [line2S]
             stationsRead = station2S
             let peru = Notification.Name("stationPin")
             NotificationCenter.default.post(name: peru, object: nil, userInfo: nil)
             let peru2 = Notification.Name("showPin")
             NotificationCenter.default.post(name: peru2, object: nil, userInfo: nil)
+            cloudDB.share.logToken(token2Save: ownerToken, lineName: linesRead.first!)
+            
         }
         CKContainer.default().sharedCloudDatabase.add(op)
     }
@@ -133,7 +136,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         print("Successful registration. Token is:")
         print(tokenString(deviceToken))
         ownerToken = tokenString(deviceToken)
-        cloudDB.share.updateToken(token2Save: ownerToken)
+        // fuck
+        cloudDB.share.setToken(token2Set: ownerToken)
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
@@ -167,16 +171,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let userInfo = notification.request.content.userInfo as! [String:Any]
         completionHandler([.alert,.sound,.badge])
         //add the subtitle
-        if let color2U = userInfo["station"] {
-            let color2UX = color2U as! String
-            let tag2U = userInfo["line"]
-            let tag2UX = tag2U as! String
-            if (colorZet.contains(color2UX) && tagZet.contains(tag2UX)) {
+        
+        if let _ = userInfo["station"] as? String {
+            if let _ = userInfo["line"] as? String {
                 completionHandler([.alert,.sound,.badge])
             } else {
                 completionHandler([])
             }
+        } else {
+            completionHandler([])
         }
+//        if let color2U = userInfo["station"] {
+//            let color2UX = color2U as! String
+//            let tag2U = userInfo["line"]
+//            let tag2UX = tag2U as! String
+//            if (colorZet.contains(color2UX) && tagZet.contains(tag2UX)) {
+//                completionHandler([.alert,.sound,.badge])
+//            } else {
+//                completionHandler([])
+//            }
+//        }
         
         
     }

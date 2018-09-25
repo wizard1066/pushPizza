@@ -31,6 +31,8 @@ enum remoteAttributes {
 //    static let tokenReference = "tokenreference"
     static let deviceRegistered = "deviceRegistered"
     static let mediaFile = "mediaFile"
+    static let notificationsregistered = "notificationsregistered"
+    static let lineRecordID = "lineRecordID"
 }
 
 var ownerToken: String!
@@ -38,13 +40,13 @@ var tokensRead:[String] = []
 var linesRead:[String] = []
 var stationsRead:[String] = []
 var linesGood2Go: Bool = false
-var stationsGood2Go: Bool = false {
-    didSet {
-        let peru = Notification.Name("stationPin")
-        NotificationCenter.default.post(name: peru, object: nil, userInfo: nil)
-        print("stationPin")
-    }
-}
+////var stationsGood2Go: Bool = false {
+//    didSet {
+//        let peru = Notification.Name("stationPin")
+//        NotificationCenter.default.post(name: peru, object: nil, userInfo: nil)
+//        print("stationPin")
+//    }
+//}
 
 var linesDictionary:[String:CKRecordID] = [:]
 var controller:UICloudSharingController!

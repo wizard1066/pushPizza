@@ -96,7 +96,7 @@ class ViewController: UIViewController, SFSafariViewControllerDelegate, UITextFi
 //        stationsRegistered = (defaults.array(forKey: remoteRecords.stationNames) as? [String])!
         
         cloudDB.share.returnAllLines()
-        postingButton.isEnabled = true
+        postingButton.isEnabled = false
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {

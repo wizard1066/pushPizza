@@ -27,16 +27,6 @@ var sharedDB: CKDatabase!
     
     public func saveZone(zone2U: String) {
         let customZone = CKRecordZone(zoneName: zone2U)
-        
-//        cloudDB.share.privateDB.save(customZone, completionHandler: ({returnRecord, error in
-//            if error != nil {
-//                print("\(error!.localizedDescription)")
-//            } else {
-//                print("customZoneID \(customZone.zoneID)")
-//            }
-//
-//        }))
-        
         let operation = CKModifyRecordZonesOperation(recordZonesToSave: [customZone], recordZoneIDsToDelete: nil)
         operation.modifyRecordZonesCompletionBlock = { savedRecords, deletedRecordIDs, error in
             if error != nil {
@@ -46,7 +36,6 @@ var sharedDB: CKDatabase!
                 self.saveShare(lineName: zone2U, zoneID: customZone.zoneID)
             }
         }
-//        cloudDB.share.privateDB.add(operation)
         CKContainer.default().privateCloudDatabase.add(operation)
     }
     
@@ -182,16 +171,17 @@ var sharedDB: CKDatabase!
     
     var tokenReference: CKReference!
     
-    public func saveToken(token2Save: String) {
+    public func saveToken(token2Save: String, line2Save: String) {
         
         let customRecord = CKRecord(recordType: remoteRecords.devicesLogged)
         customRecord[remoteAttributes.deviceRegistered] = token2Save
+        customRecord[remoteAttributes.deviceRegistered] = line2Save
         cloudDB.share.publicDB.save(customRecord, completionHandler: ({returnRecord, error in
             if error != nil {
                 
                 print("saveLine error \(error)")
             } else {
-                let tokenReference = CKReference(record: customRecord, action: CKReferenceAction.none)
+                self.tokenReference = CKReference(record: customRecord, action: CKReferenceAction.none)
             }
         }))
     }
@@ -208,7 +198,21 @@ var sharedDB: CKDatabase!
                 if records?.count == 0 {
                     self.saveLine(lineName: lineName, stationNames: stationNames, linePassword: linePassword)
                 } else {
-                    // Modify record
+                    let customRecord = records!.first
+// Cannot change the name of a line once created
+//                  customRecord![remoteAttributes.lineName] = lineName
+                    customRecord![remoteAttributes.linePassword] = linePassword
+                    customRecord![remoteAttributes.stationNames] = stationNames
+                    let operation = CKModifyRecordsOperation(recordsToSave: [customRecord!], recordIDsToDelete: nil)
+                    operation.savePolicy = .changedKeys
+                    operation.modifyRecordsCompletionBlock = { savedRecords, deletedRecordIDs, error in
+                        if error != nil {
+                            print("modify error\(error!.localizedDescription)")
+                        } else {
+                            print("record Updated \(savedRecords)")
+                        }
+                    }
+                    CKContainer.default().publicCloudDatabase.add(operation)
                 }
             }
         }
@@ -269,26 +273,40 @@ var sharedDB: CKDatabase!
                     let peru = Notification.Name("disablePost")
                     NotificationCenter.default.post(name: peru, object: nil, userInfo: nil)
                 }
-                
+                self.tokenReference = CKReference(record: record!, action: CKReferenceAction.none)
             }
         }
     }
     
-    public func updateToken(token2Save: String) {
+    public func setToken(token2Set: String) {
+        let predicate = NSPredicate(format: remoteAttributes.deviceRegistered + " = %@", token2Set)
+        let query = CKQuery(recordType: remoteRecords.devicesLogged, predicate: predicate)
+        cloudDB.share.publicDB.perform(query, inZoneWith: nil) { (records, error) in
+            if error != nil {
+                print(error!.localizedDescription)
+            } else {
+                if records?.count == 0 {
+                    // do nothing
+                } else {
+                    self.tokenReference = CKReference(record: (records?.first!)!, action: CKReferenceAction.none)
+                }
+            }
+        }
+    }
+    
+    public func logToken(token2Save: String, lineName: String) {
         let predicate = NSPredicate(format: remoteAttributes.deviceRegistered + " = %@", token2Save)
         let query = CKQuery(recordType: remoteRecords.devicesLogged, predicate: predicate)
         cloudDB.share.publicDB.perform(query, inZoneWith: nil) { (records, error) in
             if error != nil {
                 print(error!.localizedDescription)
             } else {
-                
                 if records?.count == 0 {
-                    self.saveToken(token2Save: token2Save)
+                    self.saveToken(token2Save: token2Save, line2Save: lineName)
                 } else {
-                    // update record
+                    self.tokenReference = CKReference(record: (records?.first!)!, action: CKReferenceAction.none)
                 }
             }
-            
         }
     }
     
@@ -308,6 +326,7 @@ var sharedDB: CKDatabase!
             }
         }
     }
+    
 }
 
 
