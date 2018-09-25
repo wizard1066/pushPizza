@@ -47,7 +47,8 @@ var sharedDB: CKDatabase!
         parentRecord[remoteAttributes.stationNames] = ["default"]
         let share = CKShare(rootRecord: parentRecord)
         share[CKShareTitleKey] = "Shared Parent" as CKRecordValue
-        share.publicPermission = .readOnly
+//        // PUBLIC permission
+//        share.publicPermission = .readOnly
         let saveOperation = CKModifyRecordsOperation(recordsToSave: [parentRecord, share], recordIDsToDelete: nil)
         // could also use phone or cloudkit user record ID
         let search = CKUserIdentityLookupInfo.init(emailAddress: "mona.lucking@gmail.com")
