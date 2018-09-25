@@ -37,13 +37,7 @@ var ownerToken: String!
 var tokensRead:[String] = []
 var linesRead:[String] = []
 var stationsRead:[String] = []
-var linesGood2Go: Bool = false {
-    didSet {
-        let peru = Notification.Name("showPin")
-        NotificationCenter.default.post(name: peru, object: nil, userInfo: nil)
-        print("showPin")
-    }
-}
+var linesGood2Go: Bool = false
 var stationsGood2Go: Bool = false {
     didSet {
         let peru = Notification.Name("stationPin")
@@ -54,3 +48,4 @@ var stationsGood2Go: Bool = false {
 
 var linesDictionary:[String:CKRecordID] = [:]
 var controller:UICloudSharingController!
+var url2Share: String!

@@ -86,6 +86,9 @@ var sharedDB: CKDatabase!
                     return
                 }
                 print("share url \(share.url) \(share.participants)")
+                url2Share = share.url?.absoluteString
+                let peru = Notification.Name("sharePin")
+                NotificationCenter.default.post(name: peru, object: nil, userInfo: nil)
                 self.saveImage2Share(zone2U: zoneID)
 //                let metadataOperation = CKFetchShareMetadataOperation.init(share: [share.url!])
 //                metadataOperation.perShareMetadataBlock = {url, metadata, error in
@@ -148,9 +151,9 @@ var sharedDB: CKDatabase!
                 defaults.set(linePassword, forKey: remoteAttributes.linePassword)
                 defaults.set(stationNames, forKey: remoteAttributes.stationNames)
                 linesRead.append(lineName)
-                linesGood2Go = !linesGood2Go
-//                let peru = Notification.Name("confirmPin")
-//                NotificationCenter.default.post(name: peru, object: nil, userInfo: nil)
+//                linesGood2Go = !linesGood2Go
+                let peru = Notification.Name("confirmPin")
+                NotificationCenter.default.post(name: peru, object: nil, userInfo: nil)
                 print("didSet")
                 self.saveZone(zone2U: lineName)
             }
@@ -223,7 +226,8 @@ var sharedDB: CKDatabase!
                     linesRead.append(record[remoteAttributes.lineName]!)
                     linesDictionary[record[remoteAttributes.lineName]! + record[remoteAttributes.linePassword]!] = record.recordID
                 }
-                linesGood2Go = !linesGood2Go
+                let peru = Notification.Name("showPin")
+                NotificationCenter.default.post(name: peru, object: nil, userInfo: nil)
                 print("linesRead read \(linesRead)")
             }
         }

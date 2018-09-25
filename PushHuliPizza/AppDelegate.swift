@@ -81,7 +81,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         acceptSharing.qualityOfService = .userInteractive
         acceptSharing.perShareCompletionBlock = {meta, share, error in
-            print("successfully shared")
+            print("successfully shared \(meta) \(share) \(error)")
         }
         acceptSharing.acceptSharesCompletionBlock = {
             error in

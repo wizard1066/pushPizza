@@ -75,8 +75,8 @@
                                 </connections>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="giI-7y-gM1">
-                                <rect key="frame" x="156.5" y="72" width="62" height="40"/>
-                                <fontDescription key="fontDescription" name="AvenirNextCondensed-DemiBoldItalic" family="Avenir Next Condensed" pointSize="20"/>
+                                <rect key="frame" x="157.5" y="72" width="60" height="40"/>
+                                <fontDescription key="fontDescription" name="AvenirNextCondensed-Medium" family="Avenir Next Condensed" pointSize="20"/>
                                 <state key="normal" title="Register"/>
                                 <connections>
                                     <action selector="registerButton:" destination="ZU7-wl-qQH" eventType="touchUpInside" id="cNC-KM-j7J"/>
@@ -88,17 +88,33 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Drop Zone" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="spS-Z4-Ovt">
+                                <rect key="frame" x="157.5" y="413.5" width="60" height="22"/>
+                                <fontDescription key="fontDescription" name="AvenirNextCondensed-Medium" family="Avenir Next Condensed" pointSize="16"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Link URL" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OUx-mG-HDo">
+                                <rect key="frame" x="162.5" y="592" width="50" height="22"/>
+                                <fontDescription key="fontDescription" name="AvenirNextCondensed-Medium" family="Avenir Next Condensed" pointSize="16"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="NCY-ON-39Z" firstAttribute="centerX" secondItem="Or5-8y-kaI" secondAttribute="centerX" id="0DM-q0-5mp"/>
                             <constraint firstItem="t94-c4-aoy" firstAttribute="centerX" secondItem="Or5-8y-kaI" secondAttribute="centerX" id="0pH-Rs-MNI"/>
                             <constraint firstItem="giI-7y-gM1" firstAttribute="centerX" secondItem="Or5-8y-kaI" secondAttribute="centerX" id="7WB-XN-s9c"/>
+                            <constraint firstItem="spS-Z4-Ovt" firstAttribute="top" secondItem="NMG-Gw-LDW" secondAttribute="bottom" constant="16" id="EbH-9y-ZzO"/>
+                            <constraint firstItem="spS-Z4-Ovt" firstAttribute="centerX" secondItem="Or5-8y-kaI" secondAttribute="centerX" id="FfY-5i-M73"/>
                             <constraint firstItem="giI-7y-gM1" firstAttribute="top" secondItem="gqH-Ug-0TR" secondAttribute="bottom" constant="8" id="GRt-S3-kns"/>
                             <constraint firstItem="iZp-Ak-VOb" firstAttribute="top" secondItem="OO1-Y4-dOo" secondAttribute="bottom" constant="8" id="SOK-5n-H2Z"/>
                             <constraint firstItem="NMG-Gw-LDW" firstAttribute="centerY" secondItem="Or5-8y-kaI" secondAttribute="centerY" id="TH8-ha-Ddi"/>
                             <constraint firstItem="NMG-Gw-LDW" firstAttribute="top" secondItem="NCY-ON-39Z" secondAttribute="bottom" constant="8" id="TO4-On-rBr"/>
                             <constraint firstItem="iZp-Ak-VOb" firstAttribute="centerX" secondItem="Or5-8y-kaI" secondAttribute="centerX" id="Ylj-Wt-2v1"/>
+                            <constraint firstItem="t94-c4-aoy" firstAttribute="top" secondItem="OUx-mG-HDo" secondAttribute="bottom" constant="8" id="gZe-gg-IiC"/>
+                            <constraint firstItem="OUx-mG-HDo" firstAttribute="centerX" secondItem="Or5-8y-kaI" secondAttribute="centerX" id="o0l-hf-gJU"/>
                             <constraint firstItem="NMG-Gw-LDW" firstAttribute="centerX" secondItem="Or5-8y-kaI" secondAttribute="centerX" id="oDj-bx-CeG"/>
                             <constraint firstItem="1Jr-KB-R9r" firstAttribute="top" secondItem="t94-c4-aoy" secondAttribute="bottom" constant="8" id="rqy-PS-xRA"/>
                             <constraint firstItem="OO1-Y4-dOo" firstAttribute="top" secondItem="giI-7y-gM1" secondAttribute="bottom" constant="8" id="v1k-Uk-TFh"/>
@@ -107,11 +123,13 @@
                     </view>
                     <navigationItem key="navigationItem" id="dz7-Bt-8m4"/>
                     <connections>
+                        <outlet property="dropZone" destination="spS-Z4-Ovt" id="waY-21-p22"/>
                         <outlet property="lineText" destination="OO1-Y4-dOo" id="pf0-9Y-ljY"/>
                         <outlet property="passText" destination="iZp-Ak-VOb" id="1Ue-gV-TeW"/>
                         <outlet property="registerButton" destination="giI-7y-gM1" id="e1T-gC-roe"/>
                         <outlet property="returnButton" destination="t94-c4-aoy" id="55v-tO-XSy"/>
                         <outlet property="stationsTable" destination="NMG-Gw-LDW" id="7Fz-ht-ye1"/>
+                        <outlet property="zeroURL" destination="OUx-mG-HDo" id="PDp-MC-qNi"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aUE-2T-33i" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -147,7 +165,7 @@
                                     <segue destination="LWA-wl-jrf" kind="show" identifier="configuration" id="6FB-30-VvF"/>
                                 </connections>
                             </button>
-                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yD9-AF-qAk">
+                            <pickerView contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yD9-AF-qAk">
                                 <rect key="frame" x="67.5" y="101" width="240" height="216"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="240" id="3f1-2N-CIl"/>
@@ -157,7 +175,7 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="ayR-j0-HSS"/>
                                 </connections>
                             </pickerView>
-                            <pickerView multipleTouchEnabled="YES" tag="1" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TpH-Cb-LWQ">
+                            <pickerView multipleTouchEnabled="YES" tag="1" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TpH-Cb-LWQ">
                                 <rect key="frame" x="67.5" y="370" width="240" height="216"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="240" id="J2O-ns-0XS"/>
@@ -167,22 +185,12 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="piI-SO-Onk"/>
                                 </connections>
                             </pickerView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lines" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nrG-pD-Lwa">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Lines" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nrG-pD-Lwa">
                                 <rect key="frame" x="160.5" y="73" width="54" height="20"/>
                                 <fontDescription key="fontDescription" name="HoeflerText-Black" family="Hoefler Text" pointSize="20"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YyA-7H-TUf">
-                                <rect key="frame" x="139.5" y="622" width="96" height="37"/>
-                                <fontDescription key="fontDescription" name="AvenirNextCondensed-DemiBoldItalic" family="Avenir Next Condensed" pointSize="18"/>
-                                <state key="normal" title="Previous Posts"/>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j3X-nZ-UeZ">
-                                <rect key="frame" x="140" y="28" width="95" height="37"/>
-                                <fontDescription key="fontDescription" name="AvenirNextCondensed-DemiBoldItalic" family="Avenir Next Condensed" pointSize="18"/>
-                                <state key="normal" title="Pending Posts"/>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="33e-0w-fSl">
                                 <rect key="frame" x="308" y="315" width="51" height="37"/>
                                 <fontDescription key="fontDescription" name="AvenirNextCondensed-DemiBoldItalic" family="Avenir Next Condensed" pointSize="18"/>
@@ -191,7 +199,7 @@
                                     <segue destination="h9q-ka-J1Z" kind="show" identifier="posting" id="TPJ-0E-0qx"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Stations" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LEd-Q5-gv8">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Stations" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LEd-Q5-gv8">
                                 <rect key="frame" x="146.5" y="594" width="82" height="20"/>
                                 <fontDescription key="fontDescription" name="HoeflerText-Black" family="Hoefler Text" pointSize="20"/>
                                 <nil key="textColor"/>
@@ -201,16 +209,12 @@
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="TpH-Cb-LWQ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="0Kc-0X-4VH"/>
-                            <constraint firstItem="j3X-nZ-UeZ" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" id="0as-9h-tqm"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="YyA-7H-TUf" secondAttribute="bottom" constant="8" id="1V7-OV-wQP"/>
                             <constraint firstItem="Ib0-iq-pDk" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="25T-4Y-1f2"/>
                             <constraint firstItem="7OS-zz-dS8" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="BP6-eY-NX6"/>
                             <constraint firstItem="LEd-Q5-gv8" firstAttribute="top" secondItem="TpH-Cb-LWQ" secondAttribute="bottom" constant="8" id="Ekm-PA-7Nb"/>
                             <constraint firstItem="LEd-Q5-gv8" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="NZH-FY-xaK"/>
                             <constraint firstAttribute="trailing" secondItem="7OS-zz-dS8" secondAttribute="trailing" id="PH8-ah-pM0"/>
                             <constraint firstItem="33e-0w-fSl" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="QA1-07-JXv"/>
-                            <constraint firstItem="j3X-nZ-UeZ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="S7f-8H-I4F"/>
-                            <constraint firstItem="nrG-pD-Lwa" firstAttribute="top" secondItem="j3X-nZ-UeZ" secondAttribute="bottom" constant="8" id="Svq-eV-kpW"/>
                             <constraint firstItem="7OS-zz-dS8" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="TgG-5J-JHM"/>
                             <constraint firstItem="xMb-Go-WRd" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="WOe-dX-hi3"/>
                             <constraint firstItem="33e-0w-fSl" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="Yyx-QJ-0cE"/>
@@ -218,17 +222,13 @@
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="7OS-zz-dS8" secondAttribute="bottom" id="hgk-U5-kxa"/>
                             <constraint firstItem="xMb-Go-WRd" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="9.5" id="jsL-bh-8Rv"/>
                             <constraint firstItem="yD9-AF-qAk" firstAttribute="top" secondItem="nrG-pD-Lwa" secondAttribute="bottom" constant="8" id="lS2-Su-gEy"/>
-                            <constraint firstItem="YyA-7H-TUf" firstAttribute="top" secondItem="LEd-Q5-gv8" secondAttribute="bottom" constant="8" id="nvh-8r-Qua"/>
-                            <constraint firstItem="YyA-7H-TUf" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="tMl-zi-r3K"/>
                             <constraint firstItem="Ib0-iq-pDk" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="uib-9X-7Ap"/>
                             <constraint firstItem="yD9-AF-qAk" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="z1J-5Q-dzc"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="configButton" destination="Ib0-iq-pDk" id="p1R-lS-o5x"/>
-                        <outlet property="pendingPostsButton" destination="j3X-nZ-UeZ" id="Hos-ts-s4H"/>
                         <outlet property="postingButton" destination="33e-0w-fSl" id="qH9-8h-eCQ"/>
-                        <outlet property="previousPostsButton" destination="YyA-7H-TUf" id="a8v-wG-LFA"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

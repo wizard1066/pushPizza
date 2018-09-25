@@ -22,6 +22,10 @@ class ConfigViewController: UIViewController, UITableViewDelegate, UITableViewDa
     @IBOutlet weak var lineText: UITextField!
     @IBOutlet weak var passText: UITextField!
     
+    @IBOutlet weak var zeroURL: UILabel!
+    @IBOutlet weak var dropZone: UILabel!
+   
+    
     @IBAction func returnAction(_ sender: UIButton) {
         dismiss(animated: true, completion: nil)
     }
@@ -61,8 +65,12 @@ class ConfigViewController: UIViewController, UITableViewDelegate, UITableViewDa
             // do password do nothing
             return false
         }
+        
         newText = String(lineText.text!).trimmingCharacters(in: .whitespacesAndNewlines)
         newPass = String(passText.text!).trimmingCharacters(in: .whitespacesAndNewlines)
+        if !linesRead.contains(lineText.text!) {
+            return true
+        }
         let verify = linesDictionary[newText + newPass]
         if verify != nil {
             cloudDB.share.returnStationsOnLine(line2Seek: newText)
@@ -203,6 +211,8 @@ class ConfigViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     private var pinObserver: NSObjectProtocol!
     private var pinObserver2: NSObjectProtocol!
+    private var pinObserver3: NSObjectProtocol!
+    private var pinObserver5: NSObjectProtocol!
     
     override func viewDidAppear(_ animated: Bool) {
         let center = NotificationCenter.default
@@ -218,13 +228,23 @@ class ConfigViewController: UIViewController, UITableViewDelegate, UITableViewDa
         }
         let alert2Monitor5 = "sharePin"
         pinObserver2 = center.addObserver(forName: NSNotification.Name(rawValue: alert2Monitor5), object: nil, queue: queue) { (notification) in
-            
-            self.present(controller, animated: true)
+            self.zeroURL.text = url2Share
         }
-//        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
-//        tap.numberOfTapsRequired = 2
-//        view.addGestureRecognizer(tap)
+        zeroURL.isUserInteractionEnabled = true
+        let press = UILongPressGestureRecognizer(target: self, action: #selector(copyURL))
+        view.addGestureRecognizer(press)
         self.hideKeyboardWhenTappedAround()
+    }
+    
+    @objc func copyURL() {
+        UIPasteboard.general.string = self.zeroURL.text
+        print("copied")
+        zeroURL.alpha = 0
+        UIView.animate(withDuration: 0.75, delay: 0.25, options: [.curveEaseOut], animations: {
+            self.zeroURL.alpha = 1.0
+        }) { (status) in
+            // do nothing
+        }
     }
     
     override func viewDidDisappear(_ animated: Bool) {
