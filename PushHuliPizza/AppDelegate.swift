@@ -120,6 +120,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             let line2S = self.item.object(forKey: remoteAttributes.lineName) as! String
             let station2S = self.item.object(forKey: remoteAttributes.stationNames) as! [String]
             let line2Link = self.item.object(forKey: remoteAttributes.lineReference) as! CKReference
+            lineZoneID = self.item.object(forKey: remoteAttributes.zoneID) as? String
             linesRead = [line2S]
             stationsRead = station2S
             let peru = Notification.Name("stationPin")

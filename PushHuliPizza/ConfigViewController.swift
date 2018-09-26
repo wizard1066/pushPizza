@@ -30,6 +30,18 @@ class ConfigViewController: UIViewController, UITableViewDelegate, UITableViewDa
         dismiss(animated: true, completion: nil)
     }
     
+    @IBAction func fetch(_ sender: Any) {
+//        cloudDB.share.fetchPublicInZone(zone2Search: linesRead[0])
+        cloudDB.share.saveImage2Share()
+    }
+    
+    @IBOutlet weak var getText: UITextField!
+    
+    @IBAction func get(_ sender: Any) {
+        cloudDB.share.accessShare(URL2D: getText.text!)
+    }
+    @IBOutlet weak var imageFetched: UIImageView!
+    
     @IBAction func registerButton(_ sender: UIButton) {
         cloudDB.share.updateLine(lineName: newText, stationNames: stationsRegistered, linePassword: newPass)
     }
@@ -244,6 +256,10 @@ class ConfigViewController: UIViewController, UITableViewDelegate, UITableViewDa
         let alert2Monitor5 = "sharePin"
         pinObserver2 = center.addObserver(forName: NSNotification.Name(rawValue: alert2Monitor5), object: nil, queue: queue) { (notification) in
             self.zeroURL.text = url2Share
+        }
+        let alert2Monitor4 = "doImage"
+        pinObserver2 = center.addObserver(forName: NSNotification.Name(rawValue: alert2Monitor4), object: nil, queue: queue) { (notification) in
+            self.imageFetched.image = image2D
         }
         NotificationCenter.default.addObserver( self, selector: #selector(ConfigViewController.keyboardWillShow(_:)),
                                                 name: Notification.Name.UIKeyboardWillShow,

@@ -34,6 +34,7 @@ enum remoteAttributes {
     static let notificationsregistered = "notificationsregistered"
     static let lineRecordID = "lineRecordID"
     static let lineReference = "lineReference"
+    static let zoneID = "zoneID"
 }
 
 var ownerToken: String!
@@ -52,3 +53,5 @@ var linesGood2Go: Bool = false
 var linesDictionary:[String:CKRecordID] = [:]
 var controller:UICloudSharingController!
 var url2Share: String!
+var image2D: UIImage!
+var lineZoneID: String!

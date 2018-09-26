@@ -33,6 +33,7 @@ var sharedDB: CKDatabase!
                 print("\(error!.localizedDescription)")
             } else {
                 print("customZoneID \(customZone.zoneID)")
+                self.parentZone = customZone
                 self.saveShare(lineName: zone2U, zoneID: customZone.zoneID, notificationLink: notificationReference)
             }
         }
@@ -40,12 +41,14 @@ var sharedDB: CKDatabase!
     }
     
     var parentRecord: CKRecord!
+    var parentZone: CKRecordZone!
     
     public func saveShare(lineName: String, zoneID: CKRecordZoneID, notificationLink: CKReference) {
         parentRecord = CKRecord(recordType: remoteRecords.notificationShare, zoneID: zoneID)
         parentRecord[remoteAttributes.lineName] = lineName
         parentRecord[remoteAttributes.stationNames] = ["default"]
         parentRecord[remoteAttributes.lineReference] = notificationLink
+//        parentRecord[remoteAttributes.zoneID] = (parentZone.zoneID as! CKRecordValue)
         let share = CKShare(rootRecord: parentRecord)
         share[CKShareTitleKey] = "Shared Parent" as CKRecordValue
 //        // PUBLIC permission
@@ -73,15 +76,16 @@ var sharedDB: CKDatabase!
                 print("record completion \(record) and \(error)")
             }
             modifyOperation.modifyRecordsCompletionBlock = {records, recordIDs, error in
-                guard let ckrecords: [CKRecord] = records, let record: CKRecord = ckrecords.first, error == nil else {
-                    print("error in modifying the records " + error!.localizedDescription)
-                    return
+                if error != nil {
+                    print("modifyOperation error \(error!.localizedDescription)")
                 }
                 print("share url \(share.url) \(share.participants)")
                 url2Share = share.url?.absoluteString
                 let peru = Notification.Name("sharePin")
                 NotificationCenter.default.post(name: peru, object: nil, userInfo: nil)
-                self.saveImage2Share(zone2U: zoneID)
+//                self.saveImage2Share(zone2U: zoneID)
+                
+                
                 
                 
 //                let metadataOperation = CKFetchShareMetadataOperation.init(share: [share.url!])
@@ -114,19 +118,90 @@ var sharedDB: CKDatabase!
 //        CKContainer.default().add(person2ShareWith)
     }
     
-    public func saveImage2Share(zone2U: CKRecordZoneID) {
-        let customRecord = CKRecord(recordType: remoteRecords.notificationMedia, zoneID: zone2U)
+    
+    
+    public func saveImage2Share() {
+        let zone2D = CKRecordZone(zoneName: linesRead[0])
+        let customRecord = CKRecord(recordType: remoteRecords.notificationMedia, zoneID: zone2D.zoneID)
         let fileURL = Bundle.main.bundleURL.appendingPathComponent("Marley.png")
         let ckAsset = CKAsset(fileURL: fileURL)
+
         customRecord[remoteAttributes.mediaFile] = ckAsset
-        customRecord.setParent(parentRecord)
-        cloudDB.share.privateDB.save(customRecord, completionHandler: ({returnRecord, error in
+        let share = CKShare(rootRecord: customRecord)
+        share[CKShareTitleKey] = "Marley" as CKRecordValue
+        share.publicPermission = .readOnly
+//        customRecord.setParent(parentRecord)
+        let modifyOperation: CKModifyRecordsOperation = CKModifyRecordsOperation(recordsToSave: [customRecord, share], recordIDsToDelete: nil)
+        modifyOperation.savePolicy = .ifServerRecordUnchanged
+        modifyOperation.perRecordCompletionBlock = {record, error in
+            print("record completion \(record) and \(error)")
+        }
+        modifyOperation.modifyRecordsCompletionBlock = {records, recordIDs, error in
             if error != nil {
-                print("saveLine error \(error)")
-            } else {
-                print("Marley banked")
+                print("modifyOperation error \(error!.localizedDescription)")
             }
-        }))
+            print("Marley banked \(share.url?.absoluteURL)")
+            
+        }
+        cloudDB.share.privateDB.add(modifyOperation)
+    }
+    
+    public func accessShare(URL2D: String) {
+        let URL2C = URL(string: URL2D)
+        let metadataOperation = CKFetchShareMetadataOperation.init(share: [URL2C!])
+        metadataOperation.perShareMetadataBlock = {url, metadata, error in
+            if error != nil {
+                print("record completion \(url) \(metadata) \(error)")
+                return
+            }
+            let acceptShareOperation = CKAcceptSharesOperation(shareMetadatas: [metadata!])
+            acceptShareOperation.qualityOfService = .background
+            acceptShareOperation.perShareCompletionBlock = {meta, share, error in
+                print("meta \(meta) share \(share) error \(error)")
+                self.getShare(meta)
+            }
+            acceptShareOperation.acceptSharesCompletionBlock = {error in
+                print("error in accept share completion \(error)")
+                /// Send your user to wear that need to go in your app
+                
+            }
+            CKContainer.default().add(acceptShareOperation)
+        }
+        metadataOperation.fetchShareMetadataCompletionBlock = { error in
+            if error != nil {
+                print("metadata error \(error!.localizedDescription)")
+            }
+        }
+        CKContainer.default().add(metadataOperation)
+
+    }
+    
+    var imageRex: CKRecord!
+    
+    private func getShare(_ cloudKitShareMetadata: CKShareMetadata) {
+        let op = CKFetchRecordsOperation(
+            recordIDs: [cloudKitShareMetadata.rootRecordID])
+        
+        op.perRecordCompletionBlock = { record, _, error in
+            if error != nil {
+                print("error \(error?.localizedDescription)")
+                return
+            }
+            self.imageRex = record
+            if let asset = self.imageRex["mediaFile"] as? CKAsset {
+                let data = NSData(contentsOf: asset.fileURL)
+                image2D = UIImage(data: data! as Data)
+                let peru = Notification.Name("doImage")
+                NotificationCenter.default.post(name: peru, object: nil, userInfo: nil)
+            }
+        }
+        op.fetchRecordsCompletionBlock = { records, error in
+            if error != nil {
+                print("error \(error?.localizedDescription)")
+                return
+            }
+        }
+        CKContainer.default().sharedCloudDatabase.add(op)
     }
     
     public func saveLine(lineName: String, stationNames:[String], linePassword:String) {
@@ -340,6 +415,28 @@ var sharedDB: CKDatabase!
                 } else {
                     self.tokenReference = CKReference(record: (records?.first!)!, action: CKReferenceAction.none)
                 }
+            }
+        }
+    }
+    
+    public func fetchPublicInZone(zone2Search: String) {
+        let zone2D = CKRecordZone(zoneName: zone2Search)
+        let predicate = NSPredicate(value: true)
+        let query = CKQuery(recordType: remoteRecords.notificationMedia, predicate: predicate)
+        
+        cloudDB.share.sharedDB.perform(query, inZoneWith: zone2D.zoneID) { (records, error) in
+            if error != nil {
+                print(error!.localizedDescription)
+            } else {
+                for record in records! {
+                    if let asset = record["mediaFile"] as? CKAsset,
+                        let data = NSData(contentsOf: asset.fileURL),
+                        let image2D = UIImage(data: data as Data) {
+                        let peru = Notification.Name("doImage")
+                        NotificationCenter.default.post(name: peru, object: nil, userInfo: nil)
+                    }
+                }
+                print("tokens read \(tokensRead)")
             }
         }
     }
