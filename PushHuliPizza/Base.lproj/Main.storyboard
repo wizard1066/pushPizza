@@ -88,12 +88,6 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Drop Zone" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="spS-Z4-Ovt">
-                                <rect key="frame" x="157.5" y="413.5" width="60" height="22"/>
-                                <fontDescription key="fontDescription" name="AvenirNextCondensed-Medium" family="Avenir Next Condensed" pointSize="16"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Link URL" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OUx-mG-HDo">
                                 <rect key="frame" x="162.5" y="592" width="50" height="22"/>
                                 <fontDescription key="fontDescription" name="AvenirNextCondensed-Medium" family="Avenir Next Condensed" pointSize="16"/>
@@ -106,8 +100,6 @@
                             <constraint firstItem="NCY-ON-39Z" firstAttribute="centerX" secondItem="Or5-8y-kaI" secondAttribute="centerX" id="0DM-q0-5mp"/>
                             <constraint firstItem="t94-c4-aoy" firstAttribute="centerX" secondItem="Or5-8y-kaI" secondAttribute="centerX" id="0pH-Rs-MNI"/>
                             <constraint firstItem="giI-7y-gM1" firstAttribute="centerX" secondItem="Or5-8y-kaI" secondAttribute="centerX" id="7WB-XN-s9c"/>
-                            <constraint firstItem="spS-Z4-Ovt" firstAttribute="top" secondItem="NMG-Gw-LDW" secondAttribute="bottom" constant="16" id="EbH-9y-ZzO"/>
-                            <constraint firstItem="spS-Z4-Ovt" firstAttribute="centerX" secondItem="Or5-8y-kaI" secondAttribute="centerX" id="FfY-5i-M73"/>
                             <constraint firstItem="giI-7y-gM1" firstAttribute="top" secondItem="gqH-Ug-0TR" secondAttribute="bottom" constant="8" id="GRt-S3-kns"/>
                             <constraint firstItem="iZp-Ak-VOb" firstAttribute="top" secondItem="OO1-Y4-dOo" secondAttribute="bottom" constant="8" id="SOK-5n-H2Z"/>
                             <constraint firstItem="NMG-Gw-LDW" firstAttribute="centerY" secondItem="Or5-8y-kaI" secondAttribute="centerY" id="TH8-ha-Ddi"/>
@@ -123,7 +115,6 @@
                     </view>
                     <navigationItem key="navigationItem" id="dz7-Bt-8m4"/>
                     <connections>
-                        <outlet property="dropZone" destination="spS-Z4-Ovt" id="waY-21-p22"/>
                         <outlet property="lineText" destination="OO1-Y4-dOo" id="pf0-9Y-ljY"/>
                         <outlet property="passText" destination="iZp-Ak-VOb" id="1Ue-gV-TeW"/>
                         <outlet property="registerButton" destination="giI-7y-gM1" id="e1T-gC-roe"/>

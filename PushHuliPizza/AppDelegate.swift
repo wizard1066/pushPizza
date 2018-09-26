@@ -119,14 +119,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             print("record \(self.item)")
             let line2S = self.item.object(forKey: remoteAttributes.lineName) as! String
             let station2S = self.item.object(forKey: remoteAttributes.stationNames) as! [String]
-            let line2ID = self.item.object(forKey: remoteAttributes.lineRecordID) as! String
+            let line2Link = self.item.object(forKey: remoteAttributes.lineReference) as! CKReference
             linesRead = [line2S]
             stationsRead = station2S
             let peru = Notification.Name("stationPin")
             NotificationCenter.default.post(name: peru, object: nil, userInfo: nil)
             let peru2 = Notification.Name("showPin")
             NotificationCenter.default.post(name: peru2, object: nil, userInfo: nil)
-            cloudDB.share.logToken(token2Save: ownerToken, lineName: linesRead.first!)
+            cloudDB.share.logToken(token2Save: ownerToken, lineLink: line2Link)
             
         }
         CKContainer.default().sharedCloudDatabase.add(op)

@@ -67,9 +67,15 @@ class ConfigViewController: UIViewController, UITableViewDelegate, UITableViewDa
             // do password do nothing
             return false
         }
-        
+        // no blanc spaces
+        if textField.text == "" {
+            return false
+        }
         newText = String(lineText.text!).trimmingCharacters(in: .whitespacesAndNewlines)
         newPass = String(passText.text!).trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        print("newText \(newText) newPass \(newPass)")
+        
         if !linesRead.contains(lineText.text!) {
             return true
         }

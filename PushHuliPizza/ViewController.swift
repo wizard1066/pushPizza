@@ -191,19 +191,15 @@ class ViewController: UIViewController, SFSafariViewControllerDelegate, UITextFi
         let alert2Monitor = "showPin"
         pinObserver = center.addObserver(forName: NSNotification.Name(rawValue: alert2Monitor), object: nil, queue: queue) { (notification) in
             if self.linesPicker != nil {
-                
                 self.linesPicker.selectRow(0, inComponent: 0, animated: true)
                 self.linesPicker.reloadAllComponents()
-                
             }
         }
         let alert2Monitor2 = "stationPin"
         pinObserver2 = center.addObserver(forName: NSNotification.Name(rawValue: alert2Monitor2), object: nil, queue: queue) { (notification) in
             if self.stationsPicker != nil {
-                
                 self.stationsPicker.selectRow(0, inComponent: 0, animated: true)
                 self.stationsPicker.reloadAllComponents()
-                
             }
         }
         let alert2Monitor3 = "enablePost"

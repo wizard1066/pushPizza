@@ -25,7 +25,7 @@ var sharedDB: CKDatabase!
         sharedDB = container.sharedCloudDatabase
     }
     
-    public func saveZone(zone2U: String) {
+    public func saveZone(zone2U: String, notificationReference: CKReference) {
         let customZone = CKRecordZone(zoneName: zone2U)
         let operation = CKModifyRecordZonesOperation(recordZonesToSave: [customZone], recordZoneIDsToDelete: nil)
         operation.modifyRecordZonesCompletionBlock = { savedRecords, deletedRecordIDs, error in
@@ -33,7 +33,7 @@ var sharedDB: CKDatabase!
                 print("\(error!.localizedDescription)")
             } else {
                 print("customZoneID \(customZone.zoneID)")
-                self.saveShare(lineName: zone2U, zoneID: customZone.zoneID)
+                self.saveShare(lineName: zone2U, zoneID: customZone.zoneID, notificationLink: notificationReference)
             }
         }
         CKContainer.default().privateCloudDatabase.add(operation)
@@ -41,29 +41,31 @@ var sharedDB: CKDatabase!
     
     var parentRecord: CKRecord!
     
-    public func saveShare(lineName: String, zoneID: CKRecordZoneID) {
+    public func saveShare(lineName: String, zoneID: CKRecordZoneID, notificationLink: CKReference) {
         parentRecord = CKRecord(recordType: remoteRecords.notificationShare, zoneID: zoneID)
         parentRecord[remoteAttributes.lineName] = lineName
         parentRecord[remoteAttributes.stationNames] = ["default"]
+        parentRecord[remoteAttributes.lineReference] = notificationLink
         let share = CKShare(rootRecord: parentRecord)
         share[CKShareTitleKey] = "Shared Parent" as CKRecordValue
 //        // PUBLIC permission
-//        share.publicPermission = .readOnly
-        let saveOperation = CKModifyRecordsOperation(recordsToSave: [parentRecord, share], recordIDsToDelete: nil)
+        share.publicPermission = .readOnly
+//        let saveOperation = CKModifyRecordsOperation(recordsToSave: [parentRecord, share], recordIDsToDelete: nil)
         // could also use phone or cloudkit user record ID
-        let search = CKUserIdentityLookupInfo.init(emailAddress: "mona.lucking@gmail.com")
-        let person2ShareWith = CKFetchShareParticipantsOperation(userIdentityLookupInfos: [search])
-        person2ShareWith.fetchShareParticipantsCompletionBlock = { error in
-            if error != nil {
-                print("fetchShareParticipantsCompletionBlock \(error)")
-            }
-        }
-        person2ShareWith.shareParticipantFetchedBlock = {participant in
-            print("participant \(participant)")
-            participant.permission = CKShareParticipantPermission.readOnly
-            
-            share.addParticipant(participant)
-            
+        
+//        let search = CKUserIdentityLookupInfo.init(emailAddress: "mona.lucking@gmail.com")
+//        let person2ShareWith = CKFetchShareParticipantsOperation(userIdentityLookupInfos: [search])
+//        person2ShareWith.fetchShareParticipantsCompletionBlock = { error in
+//            if error != nil {
+//                print("fetchShareParticipantsCompletionBlock \(error)")
+//            }
+//        }
+//        person2ShareWith.shareParticipantFetchedBlock = {participant in
+//            print("participant \(participant)")
+//            participant.permission = CKShareParticipantPermission.readOnly
+//
+//            share.addParticipant(participant)
+        
             let modifyOperation: CKModifyRecordsOperation = CKModifyRecordsOperation(recordsToSave: [self.parentRecord, share], recordIDsToDelete: nil)
             
             modifyOperation.savePolicy = .ifServerRecordUnchanged
@@ -80,6 +82,8 @@ var sharedDB: CKDatabase!
                 let peru = Notification.Name("sharePin")
                 NotificationCenter.default.post(name: peru, object: nil, userInfo: nil)
                 self.saveImage2Share(zone2U: zoneID)
+                
+                
 //                let metadataOperation = CKFetchShareMetadataOperation.init(share: [share.url!])
 //                metadataOperation.perShareMetadataBlock = {url, metadata, error in
 //                    print("record completion \(url) \(metadata) \(error)")
@@ -102,10 +106,12 @@ var sharedDB: CKDatabase!
 //                    }
 //                }
 //                CKContainer.default().add(metadataOperation)
+                
+                
             }
             cloudDB.share.privateDB.add(modifyOperation)
-        }
-        CKContainer.default().add(person2ShareWith)
+//        }
+//        CKContainer.default().add(person2ShareWith)
     }
     
     public func saveImage2Share(zone2U: CKRecordZoneID) {
@@ -116,7 +122,6 @@ var sharedDB: CKDatabase!
         customRecord.setParent(parentRecord)
         cloudDB.share.privateDB.save(customRecord, completionHandler: ({returnRecord, error in
             if error != nil {
-                
                 print("saveLine error \(error)")
             } else {
                 print("Marley banked")
@@ -145,8 +150,8 @@ var sharedDB: CKDatabase!
                 let peru = Notification.Name("confirmPin")
                 NotificationCenter.default.post(name: peru, object: nil, userInfo: nil)
                 print("didSet")
-                self.saveZone(zone2U: lineName)
                 let newReference = CKReference(record: customRecord, action: .none)
+                self.saveZone(zone2U: lineName, notificationReference: newReference)
                 self.updateTokenWithID(record: self.tokenReference, link2Save: newReference)
             }
         }))
@@ -174,11 +179,13 @@ var sharedDB: CKDatabase!
     
     var tokenReference: CKReference!
     
-    public func saveToken(token2Save: String, line2Save: String) {
+    public func saveToken(token2Save: String, line2Save: CKReference) {
         
         let customRecord = CKRecord(recordType: remoteRecords.devicesLogged)
         customRecord[remoteAttributes.deviceRegistered] = token2Save
-        customRecord[remoteAttributes.deviceRegistered] = line2Save
+//        let rex2D = CKRecordID(recordName: line2Save)
+//        let token2D = CKReference(recordID: rex2D, action: .none)
+        customRecord[remoteAttributes.lineReference] = line2Save
         cloudDB.share.publicDB.save(customRecord, completionHandler: ({returnRecord, error in
             if error != nil {
                 
@@ -236,8 +243,9 @@ var sharedDB: CKDatabase!
                 let peru = Notification.Name("showPin")
                 NotificationCenter.default.post(name: peru, object: nil, userInfo: nil)
                 print("linesRead read \(linesRead)")
-                let peru2 = Notification.Name("refresh")
-                NotificationCenter.default.post(name: peru2, object: nil, userInfo: nil)
+                self.returnStationsOnLine(line2Seek: linesRead[0])
+//                let peru2 = Notification.Name("refresh")
+//                NotificationCenter.default.post(name: peru2, object: nil, userInfo: nil)
             }
         }
     }
@@ -320,7 +328,7 @@ var sharedDB: CKDatabase!
         }
     }
     
-    public func logToken(token2Save: String, lineName: String) {
+    public func logToken(token2Save: String, lineLink: CKReference) {
         let predicate = NSPredicate(format: remoteAttributes.deviceRegistered + " = %@", token2Save)
         let query = CKQuery(recordType: remoteRecords.devicesLogged, predicate: predicate)
         cloudDB.share.publicDB.perform(query, inZoneWith: nil) { (records, error) in
@@ -328,7 +336,7 @@ var sharedDB: CKDatabase!
                 print(error!.localizedDescription)
             } else {
                 if records?.count == 0 {
-                    self.saveToken(token2Save: token2Save, line2Save: lineName)
+                    self.saveToken(token2Save: token2Save, line2Save: lineLink)
                 } else {
                     self.tokenReference = CKReference(record: (records?.first!)!, action: CKReferenceAction.none)
                 }
