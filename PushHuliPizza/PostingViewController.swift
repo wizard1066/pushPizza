@@ -9,6 +9,8 @@
 import UIKit
 import MobileCoreServices
 
+var testURL = "https://www.dropbox.com/s/ztnaguussrcraxf/Marley.PNG?dl=1"
+
 class PostingViewController: UIViewController, URLSessionDelegate, UIDocumentPickerDelegate,UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate, UITextViewDelegate {
     
 //    var stationsRegistered:[String] = ["English","French","Italian","German"]
@@ -223,8 +225,8 @@ class PostingViewController: UIViewController, URLSessionDelegate, UIDocumentPic
     
     @objc func updateCounting(){
         let apnsSubSub = ["title":titleTextField.text,"body":bodyText.text]
-        let apnsSub = ["alert":apnsSubSub]
-        let apnsPayload = ["aps":apnsSub,"line":bahninfo,"station":hofString] as [String : Any]
+        let apnsSub = ["alert":apnsSubSub,"category":"pizza.category","mutable-content":1] as [String : Any]
+        let apnsPayload = ["aps":apnsSub,"line":bahninfo,"station":hofString,"image-url":testURL] as [String : Any]
         if devices2Post2.count > 0 {
             buildPost(token2U: devices2Post2.removeLast(), apns2S: apnsPayload)
             clientLabel.text = "\(postsMade)"

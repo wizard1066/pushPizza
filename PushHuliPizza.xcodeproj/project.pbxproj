@@ -15,6 +15,11 @@
 		7B43B3C12154007500173B69 /* PostingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B43B3C02154007500173B69 /* PostingViewController.swift */; };
 		7B7008E42152A7E000D8CF9E /* APNS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7008E32152A7E000D8CF9E /* APNS.swift */; };
 		7B9ED8A121551C640026711B /* CommonKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B9ED8A021551C640026711B /* CommonKit.swift */; };
+		7BBD6368215BBEA7000924F0 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BD385C7214D8493008FD003 /* UserNotifications.framework */; };
+		7BBD6369215BBEA7000924F0 /* UserNotificationsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BD385C6214D8493008FD003 /* UserNotificationsUI.framework */; };
+		7BBD636C215BBEA7000924F0 /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BBD636B215BBEA7000924F0 /* NotificationViewController.swift */; };
+		7BBD636F215BBEA7000924F0 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7BBD636D215BBEA7000924F0 /* MainInterface.storyboard */; };
+		7BBD6373215BBEA7000924F0 /* ContentExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 7BBD6367215BBEA7000924F0 /* ContentExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		7BEB34452159156F0058E550 /* Marley.png in Resources */ = {isa = PBXBuildFile; fileRef = 7BEB34442159156F0058E550 /* Marley.png */; };
 		E147B98A1E29846300E66CF5 /* HuliPizzaPayload.apns in Resources */ = {isa = PBXBuildFile; fileRef = E147B9891E29846300E66CF5 /* HuliPizzaPayload.apns */; };
 		E1C45FDA1E29408100F271B4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C45FD91E29408100F271B4 /* AppDelegate.swift */; };
@@ -24,6 +29,16 @@
 		E1C45FE41E29408100F271B4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E1C45FE21E29408100F271B4 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		7BBD6371215BBEA7000924F0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E1C45FCE1E29408100F271B4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7BBD6366215BBEA7000924F0;
+			remoteInfo = ContentExtension;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
 		7BD385E2214D8E37008FD003 /* Embed App Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -31,6 +46,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				7BBD6373215BBEA7000924F0 /* ContentExtension.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -46,6 +62,10 @@
 		7B43B3C02154007500173B69 /* PostingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostingViewController.swift; sourceTree = "<group>"; };
 		7B7008E32152A7E000D8CF9E /* APNS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APNS.swift; sourceTree = "<group>"; };
 		7B9ED8A021551C640026711B /* CommonKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonKit.swift; sourceTree = "<group>"; };
+		7BBD6367215BBEA7000924F0 /* ContentExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ContentExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		7BBD636B215BBEA7000924F0 /* NotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
+		7BBD636E215BBEA7000924F0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		7BBD6370215BBEA7000924F0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7BD385C6214D8493008FD003 /* UserNotificationsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotificationsUI.framework; path = System/Library/Frameworks/UserNotificationsUI.framework; sourceTree = SDKROOT; };
 		7BD385C7214D8493008FD003 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		7BEB34442159156F0058E550 /* Marley.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Marley.png; sourceTree = "<group>"; };
@@ -61,6 +81,15 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		7BBD6364215BBEA7000924F0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7BBD6369215BBEA7000924F0 /* UserNotificationsUI.framework in Frameworks */,
+				7BBD6368215BBEA7000924F0 /* UserNotifications.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E1C45FD31E29408100F271B4 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -72,6 +101,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7BBD636A215BBEA7000924F0 /* ContentExtension */ = {
+			isa = PBXGroup;
+			children = (
+				7BBD636B215BBEA7000924F0 /* NotificationViewController.swift */,
+				7BBD636D215BBEA7000924F0 /* MainInterface.storyboard */,
+				7BBD6370215BBEA7000924F0 /* Info.plist */,
+			);
+			path = ContentExtension;
+			sourceTree = "<group>";
+		};
 		E15E4D4F1E29C9C80048B45E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -86,6 +125,7 @@
 			isa = PBXGroup;
 			children = (
 				E1C45FD81E29408100F271B4 /* PushHuliPizza */,
+				7BBD636A215BBEA7000924F0 /* ContentExtension */,
 				E15E4D4F1E29C9C80048B45E /* Frameworks */,
 				E1C45FD71E29408100F271B4 /* Products */,
 			);
@@ -95,6 +135,7 @@
 			isa = PBXGroup;
 			children = (
 				E1C45FD61E29408100F271B4 /* PushHuliPizza.app */,
+				7BBD6367215BBEA7000924F0 /* ContentExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -125,6 +166,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		7BBD6366215BBEA7000924F0 /* ContentExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7BBD6376215BBEA7000924F0 /* Build configuration list for PBXNativeTarget "ContentExtension" */;
+			buildPhases = (
+				7BBD6363215BBEA7000924F0 /* Sources */,
+				7BBD6364215BBEA7000924F0 /* Frameworks */,
+				7BBD6365215BBEA7000924F0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ContentExtension;
+			productName = ContentExtension;
+			productReference = 7BBD6367215BBEA7000924F0 /* ContentExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		E1C45FD51E29408100F271B4 /* PushHuliPizza */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = E1C45FE81E29408100F271B4 /* Build configuration list for PBXNativeTarget "PushHuliPizza" */;
@@ -137,6 +195,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				7BBD6372215BBEA7000924F0 /* PBXTargetDependency */,
 			);
 			name = PushHuliPizza;
 			productName = PushHuliPizza;
@@ -149,10 +208,15 @@
 		E1C45FCE1E29408100F271B4 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0940;
+				LastSwiftUpdateCheck = 1000;
 				LastUpgradeCheck = 0940;
 				ORGANIZATIONNAME = "Steven Lipton";
 				TargetAttributes = {
+					7BBD6366215BBEA7000924F0 = {
+						CreatedOnToolsVersion = 10.0;
+						DevelopmentTeam = CWGS87U262;
+						ProvisioningStyle = Automatic;
+					};
 					E1C45FD51E29408100F271B4 = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = CWGS87U262;
@@ -185,11 +249,20 @@
 			projectRoot = "";
 			targets = (
 				E1C45FD51E29408100F271B4 /* PushHuliPizza */,
+				7BBD6366215BBEA7000924F0 /* ContentExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		7BBD6365215BBEA7000924F0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7BBD636F215BBEA7000924F0 /* MainInterface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E1C45FD41E29408100F271B4 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -207,6 +280,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		7BBD6363215BBEA7000924F0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7BBD636C215BBEA7000924F0 /* NotificationViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E1C45FD21E29408100F271B4 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -223,7 +304,23 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		7BBD6372215BBEA7000924F0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7BBD6366215BBEA7000924F0 /* ContentExtension */;
+			targetProxy = 7BBD6371215BBEA7000924F0 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
+		7BBD636D215BBEA7000924F0 /* MainInterface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7BBD636E215BBEA7000924F0 /* Base */,
+			);
+			name = MainInterface.storyboard;
+			sourceTree = "<group>";
+		};
 		E1C45FDD1E29408100F271B4 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -243,6 +340,51 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		7BBD6374215BBEA7000924F0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = CWGS87U262;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = ContentExtension/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = ch.cqd.PushHuliPizza.ContentExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		7BBD6375215BBEA7000924F0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = CWGS87U262;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = ContentExtension/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = ch.cqd.PushHuliPizza.ContentExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		E1C45FE61E29408100F271B4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -387,6 +529,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		7BBD6376215BBEA7000924F0 /* Build configuration list for PBXNativeTarget "ContentExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7BBD6374215BBEA7000924F0 /* Debug */,
+				7BBD6375215BBEA7000924F0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		E1C45FD11E29408100F271B4 /* Build configuration list for PBXProject "PushHuliPizza" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

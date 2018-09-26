@@ -217,7 +217,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
 }
 
-
+//extension AppDelegate: UNUserNotificationCenterDelegate {
+//    private func configureUserNotifications() {
+//        UNUserNotificationCenter.current().delegate = self
+//
+//        let dismissAction = UNNotificationAction(identifier: "dismiss", title: "Dismiss", options: [])
+//        if #available(iOS 11.0, *) {
+//            let category = UNNotificationCategory(identifier: "pizza.category", actions: [dismissAction], intentIdentifiers: [], hiddenPreviewsBodyPlaceholder: "dismiss", options: [])
+//            UNUserNotificationCenter.current().setNotificationCategories([category])
+//        } else {
+//            // do nothing
+//        }
+//
+//    }
+//
+//}
 
 
 
